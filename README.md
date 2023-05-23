@@ -1,5 +1,5 @@
 
-Event and Frame based Visual Odometry (MC-VEO)
+Motion Compensated Visual-Event Odometry (MC-VEO)
 =============
 
 License
