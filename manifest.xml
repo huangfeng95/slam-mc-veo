@@ -1,6 +1,6 @@
 <package>
-  <description brief="Event and Frame based Visual Odometry">
-  Event and Frame based Visual Odometry
+  <description brief="Motion Compensated Visual-Event Odometry">
+  Motion Compensated Visual-Event Odometry
   </description>
   <author>2010195@tongji.edu.cn</author>
   <license> GPL v3 or higher (see LICENSE file)</license>
