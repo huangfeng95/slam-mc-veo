@@ -27,7 +27,7 @@
 
 #include <mc-veo/utils/Utils.hpp>
 
-namespace mc-veo { namespace utils {
+namespace mc_veo { namespace utils {
 
     class ColorMap
     {

@@ -48,7 +48,7 @@
 #include <mc-veo/utils/Calib.hpp>
 #include <mc-veo/mapping/Types.hpp>
 
-namespace mc-veo { namespace utils {
+namespace mc_veo { namespace utils {
 
     /** Trajectory alignment **/
     template<typename T, int N>
@@ -100,9 +100,9 @@ namespace mc-veo { namespace utils {
 
     cv::Mat drawValuesPoints(const std::vector<cv::Point2d> &points, const std::vector<double> &values, const int height, const int width, const std::string &method = "nn", const float s=0.5);
  
-    cv::Mat drawValuesPoints(const std::vector<::mc-veo::mapping::Point2d> &points, const std::vector<double> &values, const int height, const int width, const std::string &method = "nn", const float s=0.5);
+    cv::Mat drawValuesPoints(const std::vector<::mc_veo::mapping::Point2d> &points, const std::vector<double> &values, const int height, const int width, const std::string &method = "nn", const float s=0.5);
 
-    cv::Mat drawValuesPointInfo(const std::vector<::mc-veo::mapping::PointInfo> &points_info,
+    cv::Mat drawValuesPointInfo(const std::vector<::mc_veo::mapping::PointInfo> &points_info,
                         const int height, const int width, const std::string &method = "nn", const float s = 0.5);
 
     cv::Mat drawValuesPoints(std::vector<cv::Point2d>::const_iterator &points_begin, std::vector<cv::Point2d>::const_iterator &points_end,
@@ -131,7 +131,7 @@ namespace mc-veo { namespace utils {
                             std::vector<cv::Mat> &patches, const uint16_t &patch_radius=7,
                             const int &border_type = cv::BORDER_DEFAULT, const uint8_t &border_value = 255);
 
-    void splitImageInPatches(const cv::Mat &image, const std::vector<::mc-veo::mapping::PointInfo> &points,
+    void splitImageInPatches(const cv::Mat &image, const std::vector<::mc_veo::mapping::PointInfo> &points,
                             std::vector<cv::Mat> &patches, const uint16_t &patch_radius=7,
                             const int &border_type = cv::BORDER_DEFAULT, const uint8_t &border_value = 255);
 
@@ -154,7 +154,7 @@ namespace mc-veo { namespace utils {
 
     cv::Point2d searchAlongEpiline(const cv::Size &size, const cv::Mat &img, const cv::Mat &patch, const cv::Vec3d &line,
                             const base::Transform3d &T_ef_kf, const cv::Point2d &norm_coord, const double &idepth,
-                            const double &sigma, const cv::Mat &K, const ::mc-veo::utils::SIMILARITY_MEASURE &method=ZNCC);
+                            const double &sigma, const cv::Mat &K, const ::mc_veo::utils::SIMILARITY_MEASURE &method=ZNCC);
 
     cv::Mat viz(const cv::Mat &img, bool color=false);
 
@@ -164,7 +164,7 @@ namespace mc-veo { namespace utils {
 
     cv::Mat epilineImage(const cv::Mat &img, const cv::Vec3d &line, const uint16_t &height);
 
-    void getCalibration(const ::mc-veo::calib::CameraInfo &cam_info, int &w_out, int &h_out, Eigen::Matrix3f &K_out, Eigen::Vector4f &D_out, Eigen::Matrix3f &R_rect_out, Eigen::Matrix3f &K_ref_out);
+    void getCalibration(const ::mc_veo::calib::CameraInfo &cam_info, int &w_out, int &h_out, Eigen::Matrix3f &K_out, Eigen::Vector4f &D_out, Eigen::Matrix3f &R_rect_out, Eigen::Matrix3f &K_ref_out);
 
     void getUndistortImage(const std::string &distortion_model, cv::Mat &input, cv::Mat &output, cv::Mat &K, cv::Mat &K_ref, cv::Mat &D);
 
@@ -440,11 +440,11 @@ namespace mc-veo { namespace utils {
         assert(img.cols > 0);
         assert(img.rows > 0);
 
-        std::cout<<mc-veo::utils::type2str(img.type())<<std::endl;
+        std::cout<<mc_veo::utils::type2str(img.type())<<std::endl;
         img.convertTo(img, CV_8UC1, 255, 0);
-        std::cout<<mc-veo::utils::type2str(img.type())<<std::endl;
+        std::cout<<mc_veo::utils::type2str(img.type())<<std::endl;
         cv::cvtColor(img, img, cv::COLOR_GRAY2RGB);
-        std::cout<<mc-veo::utils::type2str(img.type())<<std::endl;
+        std::cout<<mc_veo::utils::type2str(img.type())<<std::endl;
 
         auto clip = [](const int n, const int lower, const int upper)
         {

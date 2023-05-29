@@ -29,7 +29,7 @@
 
 #include <mc-veo/tracking/Config.hpp>
 
-namespace mc-veo {
+namespace mc_veo {
 namespace tracking {
     class EventFrame
     {
@@ -84,10 +84,10 @@ namespace tracking {
 
         public:
             /** @brief Default constructor **/
-            EventFrame(const ::mc-veo::calib::Camera &cam, const ::mc-veo::calib::Camera &newcam,  const std::string &distortion_model="radtan");
+            EventFrame(const ::mc_veo::calib::Camera &cam, const ::mc_veo::calib::Camera &newcam,  const std::string &distortion_model="radtan");
 
             EventFrame(const uint64_t &idx, const std::vector<base::samples::Event> &events,
-                    const ::mc-veo::calib::CameraInfo &cam_info, const int &num_levels = 1,
+                    const ::mc_veo::calib::CameraInfo &cam_info, const int &num_levels = 1,
                     const ::base::Affine3d &T=::base::Affine3d::Identity(),
                     const cv::Size &out_size = cv::Size(0, 0));
 
@@ -98,7 +98,7 @@ namespace tracking {
 
             /** @brief Insert new Eventframe **/
             void create(const uint64_t &idx, const std::vector<base::samples::Event> &events,
-                    const ::mc-veo::calib::CameraInfo &cam_info, const int &num_levels = 1,
+                    const ::mc_veo::calib::CameraInfo &cam_info, const int &num_levels = 1,
                     const ::base::Affine3d &T=::base::Affine3d::Identity(),
                     const cv::Size &out_size = cv::Size(0, 0));
 
@@ -114,7 +114,7 @@ namespace tracking {
                     const Eigen::Vector3d &v_linear=Eigen::Vector3d::Zero(), const Eigen::Vector3d &v_angular=Eigen::Vector3d::Zero(),
                     const ::base::Affine3d &pose_w_ef=::base::Affine3d::Identity());
             void create_aligned(const uint64_t &idx, const std::vector<base::samples::Event> &events,
-                    const ::mc-veo::calib::CameraInfo &cam_info, const int &num_levels = 1,
+                    const ::mc_veo::calib::CameraInfo &cam_info, const int &num_levels = 1,
                     const cv::Size &out_size = cv::Size(0, 0), 
                     const ::base::Affine3d &T=::base::Affine3d::Identity());
                 std::vector<uint32_t> GetValidIndexFromEvent(const std::vector<cv::Point2d> & event);

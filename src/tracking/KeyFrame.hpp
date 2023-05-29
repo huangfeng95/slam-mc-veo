@@ -31,7 +31,7 @@
 
 #include <mc-veo/tracking/Config.hpp>
 
-namespace mc-veo {
+namespace mc_veo {
 namespace tracking{
 
     struct KFPointIterators
@@ -45,7 +45,7 @@ namespace tracking{
         std::vector<double>::iterator weights;
         std::vector<Eigen::Vector2d>::iterator tracks;
         std::vector<Eigen::Vector2d>::iterator flow;
-        ::mc-veo::mapping::DepthPoints::iterator inv_depth;
+        ::mc_veo::mapping::DepthPoints::iterator inv_depth;
     };
     
     enum CANDIDATE_POINT_METHOD{MAX, MEDIAN};
@@ -96,18 +96,18 @@ namespace tracking{
             /** Key frame pose **/
             ::base::Affine3d T_w_kf;
             /** Inverse depth points **/
-            mc-veo::mapping::DepthPoints inv_depth;
+            mc_veo::mapping::DepthPoints inv_depth;
 
 
         public:
             /** @brief Default constructor **/
-            KeyFrame(const ::mc-veo::calib::Camera &cam, const ::mc-veo::calib::Camera &newcam,  const std::string &distortion_model="radtan");
+            KeyFrame(const ::mc_veo::calib::Camera &cam, const ::mc_veo::calib::Camera &newcam,  const std::string &distortion_model="radtan");
 
-            KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc-veo::mapping::IDepthMap2d &depthmap,
-                    const ::mc-veo::calib::CameraInfo &cam_info, const ::mc-veo::mapping::Config &map_info, const float &percent_points,
+            KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc_veo::mapping::IDepthMap2d &depthmap,
+                    const ::mc_veo::calib::CameraInfo &cam_info, const ::mc_veo::mapping::Config &map_info, const float &percent_points,
                     const ::base::Affine3d &T=::base::Affine3d::Identity(), const cv::Size &out_size = cv::Size(0, 0));
 
-            KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc-veo::mapping::IDepthMap2d &depthmap,
+            KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc_veo::mapping::IDepthMap2d &depthmap,
                     cv::Mat &K, cv::Mat &D, cv::Mat &R_rect, cv::Mat &P,
                     const std::string &distortion_model="radtan",
                     const CANDIDATE_POINT_METHOD points_selection_method = MEDIAN,
@@ -116,11 +116,11 @@ namespace tracking{
                     const cv::Size &out_size = cv::Size(0, 0));
 
             /** @brief Create new Keyframe image **/
-            void create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc-veo::mapping::IDepthMap2d &depthmap,
-                    const ::mc-veo::mapping::Config &map_info, const float &percent_points,
+            void create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc_veo::mapping::IDepthMap2d &depthmap,
+                    const ::mc_veo::mapping::Config &map_info, const float &percent_points,
                     const ::base::Affine3d &T=::base::Affine3d::Identity(), const cv::Size &out_size = cv::Size(0, 0));
 
-            void create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc-veo::mapping::IDepthMap2d &depthmap,
+            void create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc_veo::mapping::IDepthMap2d &depthmap,
                     const CANDIDATE_POINT_METHOD points_selection_method = MEDIAN,
                     const double &min_depth=1.0, const double &max_depth=2.0, const double &convergence_sigma2_thresh=10,
                     const float &percent_points = 0.0, const ::base::Affine3d &T=::base::Affine3d::Identity(),
@@ -128,16 +128,16 @@ namespace tracking{
 
             /** @brief Create new Keyframe image when using external coordinates selector and inverse depth **/
             void create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, const std::vector<cv::Point2d> &coord,
-                        ::mc-veo::mapping::IDepthMap2d &depthmap, const ::base::Affine3d &T=::base::Affine3d::Identity(), const cv::Size &out_size = cv::Size(0, 0));
+                        ::mc_veo::mapping::IDepthMap2d &depthmap, const ::base::Affine3d &T=::base::Affine3d::Identity(), const cv::Size &out_size = cv::Size(0, 0));
 
             /** @brief Create new Keyframe image when using external depth map in the exact coordinates points **/
-            void create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc-veo::mapping::IDepthMap2d &depthmap,
+            void create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc_veo::mapping::IDepthMap2d &depthmap,
                     const ::base::Affine3d &T=::base::Affine3d::Identity(), const cv::Size &out_size = cv::Size(0, 0));
 
             void clear();
 
-            void insert(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc-veo::mapping::IDepthMap2d &depthmap,
-                    const ::mc-veo::mapping::Config &map_info, const float &percent_points = 0.0, const ::base::Affine3d &T=::base::Affine3d::Identity());
+            void insert(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc_veo::mapping::IDepthMap2d &depthmap,
+                    const ::mc_veo::mapping::Config &map_info, const float &percent_points = 0.0, const ::base::Affine3d &T=::base::Affine3d::Identity());
 
             void candidatePoints(std::vector<cv::Point2d> &coord, const cv::Size &patch_size = cv::Size(20, 20),
                     CANDIDATE_POINT_METHOD method = MAX, const int &num_points = 5000, uint8_t level=0);
@@ -158,11 +158,11 @@ namespace tracking{
 
             cv::Mat viz(const cv::Mat &img, bool color=false);
 
-            void setDepthMap(::mc-veo::mapping::IDepthMap2d &depthmap, const ::mc-veo::mapping::Config &map_info);
+            void setDepthMap(::mc_veo::mapping::IDepthMap2d &depthmap, const ::mc_veo::mapping::Config &map_info);
 
-            void setDepthMap(::mc-veo::mapping::IDepthMap2d &depthmap, const ::mc-veo::mapping::Config &map_info, const std::array<double, 2> &scale={1.0, 1.0});
+            void setDepthMap(::mc_veo::mapping::IDepthMap2d &depthmap, const ::mc_veo::mapping::Config &map_info, const std::array<double, 2> &scale={1.0, 1.0});
 
-            void setDepthMap(::mc-veo::mapping::IDepthMap2d &depthmap, const double &min_depth, const double &max_depth,
+            void setDepthMap(::mc_veo::mapping::IDepthMap2d &depthmap, const double &min_depth, const double &max_depth,
                             const double &convergence_sigma2_thresh, const std::array<double, 2> &scale={1.0, 1.0});
 
             void setPose(const ::base::Transform3d& pose);

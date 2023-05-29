@@ -30,7 +30,7 @@
 #include <mc-veo/mapping/Types.hpp>
 
 
-namespace mc-veo { namespace mapping {
+namespace mc_veo { namespace mapping {
 
 enum DEPTH_FILTER{VOGIATZIS, GAUSS};
 
@@ -77,11 +77,11 @@ public:
 
     /** Update method given event frame coordinates **/
     void update(const ::base::Transform3d &T_kf_ef, const std::vector<cv::Point2d> &kf_coord, const std::vector<cv::Point2d> &ef_coord,
-                const mc-veo::mapping::DEPTH_FILTER &filter = VOGIATZIS);
+                const mc_veo::mapping::DEPTH_FILTER &filter = VOGIATZIS);
 
     /** Update method given points tracks **/
     void update(const ::base::Transform3d &T_kf_ef, const std::vector<cv::Point2d> &kf_coord, const std::vector<Eigen::Vector2d> &tracks,
-                const mc-veo::mapping::DEPTH_FILTER &filter = VOGIATZIS);
+                const mc_veo::mapping::DEPTH_FILTER &filter = VOGIATZIS);
 
     /** Vogiatzis filter **/
     bool filterVogiatzis(const double &z, const double &tau2, const double &mu_range,  data_type &state);

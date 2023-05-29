@@ -28,7 +28,7 @@
 #include <yaml-cpp/yaml.h>
 #include <string>
 
-namespace mc-veo { namespace recorder{
+namespace mc_veo { namespace recorder{
 
     struct Visual
     {
@@ -50,9 +50,9 @@ namespace mc-veo { namespace recorder{
         Visual viz;
     };
 
-    inline ::mc-veo::recorder::Config readRecorderConfig(YAML::Node config)
+    inline ::mc_veo::recorder::Config readRecorderConfig(YAML::Node config)
     {
-        ::mc-veo::recorder::Config recorder_config;
+        ::mc_veo::recorder::Config recorder_config;
 
         return recorder_config;
     };

@@ -27,7 +27,7 @@
 #include <yaml-cpp/yaml.h>
 #include <stdint.h>
 
-namespace mc-veo { namespace mapping{
+namespace mc_veo { namespace mapping{
 
     struct Config
     {
@@ -41,9 +41,9 @@ namespace mc-veo { namespace mapping{
         float points_rel_baseline;
     };
 
-    inline ::mc-veo::mapping::Config readMappingConfig(YAML::Node config)
+    inline ::mc_veo::mapping::Config readMappingConfig(YAML::Node config)
     {
-        ::mc-veo::mapping::Config mapping_config;
+        ::mc_veo::mapping::Config mapping_config;
 
         mapping_config.min_depth = config["min_depth"].as<double>();
         if (mapping_config.min_depth < 0) mapping_config.min_depth= 1e0-6;

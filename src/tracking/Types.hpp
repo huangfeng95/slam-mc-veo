@@ -38,7 +38,7 @@
 #include <vector>
 
 
-namespace mc-veo { namespace tracking {
+namespace mc_veo { namespace tracking {
 
 struct KFImagePyr
 {
@@ -55,7 +55,7 @@ struct KFImagePyr
 struct ManageKFImagePyr
 {
     uint8_t num_level; //number of pyramid levels
-    std::vector<::mc-veo::tracking::KFImagePyr> image; // the pyramed images
+    std::vector<::mc_veo::tracking::KFImagePyr> image; // the pyramed images
 };
 
 struct EventImagePyr
@@ -71,7 +71,7 @@ struct EventImagePyr
 struct ManageEventImagePyr
 {
     uint8_t num_level; //number of pyramid levels
-    std::vector<::mc-veo::tracking::EventImagePyr> image;
+    std::vector<::mc_veo::tracking::EventImagePyr> image;
 };
 
 } // tracking namespace

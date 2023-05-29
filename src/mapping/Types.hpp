@@ -35,7 +35,7 @@
 #include <iostream>
 #include <random>
 
-namespace mc-veo { namespace mapping {
+namespace mc_veo { namespace mapping {
 
 // user-defined point type
 // inherits std::array in order to use operator[]
@@ -312,14 +312,14 @@ struct KeyFrameInfo
 struct PointInfo
 {
     PointInfo(){};
-    PointInfo(const ::mc-veo::mapping::Point2d &coord_, const ::mc-veo::mapping::Point2d &norm_coord_,
+    PointInfo(const ::mc_veo::mapping::Point2d &coord_, const ::mc_veo::mapping::Point2d &norm_coord_,
              const std::vector<double> &patch_, const double &inv_depth_, const double &intensity_,
              const double &residual_, const double &gradient_)
             :coord(coord_), norm_coord(norm_coord_), patch(patch_), inv_depth(inv_depth_),
             intensity(intensity_), residual(residual_), gradient(gradient_){};
 
-    ::mc-veo::mapping::Point2d coord; //pixel coord
-    ::mc-veo::mapping::Point2d norm_coord; //normalized coord
+    ::mc_veo::mapping::Point2d coord; //pixel coord
+    ::mc_veo::mapping::Point2d norm_coord; //normalized coord
     std::vector<double> patch; //bundle patch of this point
     double inv_depth; //inverse depth for all points in the patch
     double intensity; //image intensity

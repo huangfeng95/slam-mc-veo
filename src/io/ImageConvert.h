@@ -29,7 +29,7 @@
 #include <mc-veo/utils/MinimalImage.h>
 
 
-namespace mc-veo
+namespace mc_veo
 {
 
 namespace io

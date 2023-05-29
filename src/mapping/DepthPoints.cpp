@@ -25,7 +25,7 @@
 
 #include <iostream>
 #include <opencv2/core/eigen.hpp>
-using namespace mc-veo::mapping;
+using namespace mc_veo::mapping;
 
 DepthPoints::DepthPoints()
 {
@@ -60,7 +60,7 @@ void DepthPoints::init(const cv::Mat &K, const uint32_t &num_points, const doubl
     this->cx_ = K.at<double>(0,2); this->cy_ = K.at<double>(1,2);
     this->mu_range  = max_depth-min_depth;
     this->px_error_angle = this->getAngleError(this->px_noise);
-    this->seed_mu_range = mc-veo::mapping::getMeanRangeFromDepthMinMax(min_depth, max_depth);
+    this->seed_mu_range = mc_veo::mapping::getMeanRangeFromDepthMinMax(min_depth, max_depth);
     this->convergence_sigma2_thresh = threshold;
     std::cout<<"[DEPTH_POINTS] px_noise: "<<this->px_noise<<" px_error_angle: "<<this->px_error_angle<<std::endl;
     std::cout<<"[DEPTH_POINTS] init_depth: "<<(max_depth-min_depth)/2.0<<" mu_range: "<<this->mu_range<<" init_sigma2: "<<this->mu_range * this->mu_range<< std::endl;
@@ -78,7 +78,7 @@ void DepthPoints::init(const cv::Mat &K, const std::vector<double> &inv_depth, c
     this->cx_ = K.at<double>(0,2); this->cy_ = K.at<double>(1,2);
     this->mu_range  = max_depth-min_depth;
     this->px_error_angle = this->getAngleError(this->px_noise);
-    this->seed_mu_range = mc-veo::mapping::getMeanRangeFromDepthMinMax(min_depth, max_depth);
+    this->seed_mu_range = mc_veo::mapping::getMeanRangeFromDepthMinMax(min_depth, max_depth);
     this->convergence_sigma2_thresh = threshold;
     std::cout<<"[DEPTH_POINTS] px_noise: "<<this->px_noise<<" px_error_angle: "<<this->px_error_angle<<std::endl;
 
@@ -94,7 +94,7 @@ void DepthPoints::init(const cv::Mat &K, const std::vector<double> &inv_depth, c
 }
 
 void DepthPoints::update(const ::base::Transform3d &T_kf_ef, const std::vector<cv::Point2d> &kf_coord, const std::vector<cv::Point2d> &ef_coord,
-                const mc-veo::mapping::DEPTH_FILTER &filter)
+                const mc_veo::mapping::DEPTH_FILTER &filter)
 {
     assert(this->data.size() == kf_coord.size());
     assert(kf_coord.size() == ef_coord.size());
@@ -133,12 +133,12 @@ void DepthPoints::update(const ::base::Transform3d &T_kf_ef, const std::vector<c
 
         /** Update estimates using the filter **/
         this->filterVogiatzis(inv_depth, this->getSigma2FromDepthSigma(depth, depth_sigma), this->mu_range, *it_data);
-        //mc-veo::mapping::mu(*it_data) = inv_depth;
+        //mc_veo::mapping::mu(*it_data) = inv_depth;
     }
 }
 
 void DepthPoints::update(const ::base::Transform3d &T_kf_ef, const std::vector<cv::Point2d> &kf_coord, const std::vector<Eigen::Vector2d> &tracks,
-                const mc-veo::mapping::DEPTH_FILTER &filter)
+                const mc_veo::mapping::DEPTH_FILTER &filter)
 {
     assert(this->data.size() == kf_coord.size());
     assert(kf_coord.size() == tracks.size());
@@ -182,10 +182,10 @@ void DepthPoints::update(const ::base::Transform3d &T_kf_ef, const std::vector<c
 
 bool DepthPoints::filterVogiatzis(const double &z, const double &tau2, const double &mu_range, data_type &state)
 {
-    double &mu = ::mc-veo::mapping::mu(state);
-    double &sigma2 = ::mc-veo::mapping::sigma2(state);
-    double &a = ::mc-veo::mapping::a(state);
-    double &b = ::mc-veo::mapping::b(state);
+    double &mu = ::mc_veo::mapping::mu(state);
+    double &sigma2 = ::mc_veo::mapping::sigma2(state);
+    double &a = ::mc_veo::mapping::a(state);
+    double &b = ::mc_veo::mapping::b(state);
 
     const double norm_scale = std::sqrt(sigma2 + tau2);
     if(std::isnan(norm_scale))
@@ -199,7 +199,7 @@ bool DepthPoints::filterVogiatzis(const double &z, const double &tau2, const dou
     const double m = s2*(mu/sigma2 + z/tau2);
     const double uniform_x = 1.0/mu_range;
 
-    double C1 = a/(a+b) * ::mc-veo::utils::normPdf<double>(z, mu, norm_scale);
+    double C1 = a/(a+b) * ::mc_veo::utils::normPdf<double>(z, mu, norm_scale);
     double C2 = b/(a+b) * uniform_x;
     const double normalization_constant = C1 + C2;
     C1 /= normalization_constant;
@@ -235,7 +235,7 @@ void DepthPoints::getIDepth(std::vector<double> &x)
     x.clear();
     for (auto &it: this->data)
     {
-        x.push_back(::mc-veo::mapping::mu(it));
+        x.push_back(::mc_veo::mapping::mu(it));
     }
 }
 
@@ -244,7 +244,7 @@ std::vector<double> DepthPoints::getIDepth()
     std::vector<double> x;
     for (auto &it: this->data)
     {
-        x.push_back(::mc-veo::mapping::mu(it));
+        x.push_back(::mc_veo::mapping::mu(it));
     }
     return x;
 }
@@ -252,14 +252,14 @@ std::vector<double> DepthPoints::getIDepth()
 void DepthPoints::meanIDepth(double &mean, double &st_dev)
 {
     std::vector<double> x = this->getIDepth();
-    ::mc-veo::utils::mean_std_vector(x, mean, st_dev);
+    ::mc_veo::utils::mean_std_vector(x, mean, st_dev);
 }
 
 void DepthPoints::medianIDepth(double &median, double &third_q)
 {
     std::vector<double> x = this->getIDepth();
-    median = mc-veo::utils::n_quantile_vector(x, x.size()/2);
-    third_q = mc-veo::utils::n_quantile_vector(x, x.size()/3);
+    median = mc_veo::utils::n_quantile_vector(x, x.size()/2);
+    third_q = mc_veo::utils::n_quantile_vector(x, x.size()/3);
 }
 
 // Implementation of [] operator.  This function must return a
@@ -281,14 +281,14 @@ cv::Mat DepthPoints::sigmaViz(const cv::Mat &img, const std::vector<cv::Point2d>
     std::vector<double> sigmas;
     for (auto it : this->data)
     {
-        sigmas.push_back(std::sqrt(::mc-veo::mapping::sigma2(it)));
+        sigmas.push_back(std::sqrt(::mc_veo::mapping::sigma2(it)));
     }
     /** get the min and max values **/
     min_sigma = * std::min_element(std::begin(sigmas), std::end(sigmas));
     max_sigma = * std::max_element(std::begin(sigmas), std::end(sigmas));
  
     /** Draw the sigmas **/
-    cv::Mat sigma_img = mc-veo::utils::drawValuesPoints(coord, sigmas, img.rows, img.cols, "nn", 0.0);
+    cv::Mat sigma_img = mc_veo::utils::drawValuesPoints(coord, sigmas, img.rows, img.cols, "nn", 0.0);
 
     /** Convert between 0-1 scale **/
     double min, max;

@@ -26,9 +26,9 @@
 #include <mc-veo/utils/Colormap.hpp>
 #include <opencv2/features2d.hpp>
 
-using namespace mc-veo::tracking;
+using namespace mc_veo::tracking;
 
-KeyFrame::KeyFrame(const ::mc-veo::calib::Camera &cam, const ::mc-veo::calib::Camera &newcam, const std::string &distortion_model)
+KeyFrame::KeyFrame(const ::mc_veo::calib::Camera &cam, const ::mc_veo::calib::Camera &newcam, const std::string &distortion_model)
 {
     this->K = cam.K.clone();
     this->D = cam.D.clone();
@@ -82,8 +82,8 @@ KeyFrame::KeyFrame(const ::mc-veo::calib::Camera &cam, const ::mc-veo::calib::Ca
     std::cout<<"mapy: "<<this->mapy.rows<<" x "<<this->mapy.cols<<std::endl;
 }
 
-KeyFrame::KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc-veo::mapping::IDepthMap2d &depthmap,
-                   const ::mc-veo::calib::CameraInfo &cam_info, const ::mc-veo::mapping::Config &map_info, const float &percent_points,
+KeyFrame::KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc_veo::mapping::IDepthMap2d &depthmap,
+                   const ::mc_veo::calib::CameraInfo &cam_info, const ::mc_veo::mapping::Config &map_info, const float &percent_points,
                    const ::base::Affine3d &T, const cv::Size &out_size)
 {
     cv::Mat K, D, R_rect, P;
@@ -135,7 +135,7 @@ KeyFrame::KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, 
 }
 
 KeyFrame::KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img,
-            ::mc-veo::mapping::IDepthMap2d &depthmap,
+            ::mc_veo::mapping::IDepthMap2d &depthmap,
             cv::Mat &K, cv::Mat &D, cv::Mat &R_rect, cv::Mat &P,
             const std::string &distortion_model,
             const CANDIDATE_POINT_METHOD points_selection_method,
@@ -146,7 +146,7 @@ KeyFrame::KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img,
             :idx(idx), time(time), distortion_model(distortion_model), percent_points(percent_points), T_w_kf(T)
 {
     std::cout<<"[KEY_FRAME] IDX: "<<idx<<" TIME: "<<time.toMicroseconds() <<std::endl;
-    std::cout<<"[KEY_FRAME] img.type: "<<mc-veo::utils::type2str(img.type()) <<std::endl;
+    std::cout<<"[KEY_FRAME] img.type: "<<mc_veo::utils::type2str(img.type()) <<std::endl;
 
     if (P.total()>0)
         this->K_ref = P(cv::Rect(0,0,3,3));
@@ -268,7 +268,7 @@ KeyFrame::KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img,
                                 points_selection_method, target_num_points);
         else
             this->candidatePoints(this->coord, cv::Size(this->adaptive_width_patch_factor * size.width, this->adaptive_height_patch_factor * size.height),
-                                mc-veo::tracking::MEDIAN);
+                                mc_veo::tracking::MEDIAN);
 
         /** Candidate points normalized coordinates **/
         double fx, fy, cx, cy;
@@ -293,10 +293,10 @@ KeyFrame::KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img,
         this->setDepthMap(depthmap, min_depth, max_depth, convergence_sigma2_thresh, {1.0, 1.0});
 
         /** Create the point patches. Adaptive patch size defines as 7 for 240x180 **/
-        mc-veo::utils::splitImageInPatches(this->img, this->coord, this->patches, this->adaptive_patch_factor * (size.width * size.height));
+        mc_veo::utils::splitImageInPatches(this->img, this->coord, this->patches, this->adaptive_patch_factor * (size.width * size.height));
 
         /** Create the point bundle patches **/
-        mc-veo::utils::computeBundlePatches(this->patches, this->bundle_patches);
+        mc_veo::utils::computeBundlePatches(this->patches, this->bundle_patches);
 
         /** Initial residuals **/
         this->residuals.resize(this->coord.size(), 0.0);
@@ -320,8 +320,8 @@ KeyFrame::KeyFrame(const uint64_t &idx, const ::base::Time &time, cv::Mat &img,
     std::cout<<"[KEY_FRAME] selected points: "<<this->percent_points<<"[%]"<<std::endl;
 }
 
-void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc-veo::mapping::IDepthMap2d &depthmap,
-                   const ::mc-veo::mapping::Config &map_info, const float &percent_points,
+void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img, ::mc_veo::mapping::IDepthMap2d &depthmap,
+                   const ::mc_veo::mapping::Config &map_info, const float &percent_points,
                    const ::base::Affine3d &T, const cv::Size &out_size)
 {
     CANDIDATE_POINT_METHOD points_selection_method = MEDIAN;
@@ -334,7 +334,7 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
 
 }
 void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img,
-            ::mc-veo::mapping::IDepthMap2d &depthmap,
+            ::mc_veo::mapping::IDepthMap2d &depthmap,
             const CANDIDATE_POINT_METHOD points_selection_method,
             const double &min_depth, const double &max_depth, const double &convergence_sigma2_thresh,
             const float &percent_points,
@@ -346,7 +346,7 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
 
     this->idx = idx; this->time = time; this->percent_points = percent_points; this->T_w_kf = T;
     std::cout<<"[KEY_FRAME] IDX: "<<idx<<" TIME: "<<time.toMicroseconds() <<std::endl;
-    std::cout<<"[KEY_FRAME] img.type: "<<mc-veo::utils::type2str(img.type()) <<std::endl;
+    std::cout<<"[KEY_FRAME] img.type: "<<mc_veo::utils::type2str(img.type()) <<std::endl;
 
     /** IMPORTANT: Image is already undistorted **/
     this->img = img.clone();
@@ -411,7 +411,7 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
         if (target_num_points > 0 && (target_num_points < (this->img.rows*this->img.cols)))
             this->candidatePoints(this->coord, cv::Size(20, 20), points_selection_method, target_num_points);
         else
-            this->candidatePoints(this->coord, cv::Size(20, 20), mc-veo::tracking::MEDIAN);
+            this->candidatePoints(this->coord, cv::Size(20, 20), mc_veo::tracking::MEDIAN);
 
         /** Candidate points normalized coordinates **/
         double fx, fy, cx, cy;
@@ -436,10 +436,10 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
         this->setDepthMap(depthmap, min_depth, max_depth, convergence_sigma2_thresh, {1.0, 1.0});
 
         /** Create the point patches. Adaptive patch size defines as 7 for 240x180 **/
-        mc-veo::utils::splitImageInPatches(this->img, this->coord, this->patches, this->adaptive_patch_factor * (size.width * size.height));
+        mc_veo::utils::splitImageInPatches(this->img, this->coord, this->patches, this->adaptive_patch_factor * (size.width * size.height));
 
         /** Create the point bundle patches **/
-        mc-veo::utils::computeBundlePatches(this->patches, this->bundle_patches);
+        mc_veo::utils::computeBundlePatches(this->patches, this->bundle_patches);
 
         /** Initial residuals **/
         this->residuals.resize(this->coord.size(), 0.0);
@@ -466,7 +466,7 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
 }
 
 void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img,
-            const std::vector<cv::Point2d> &coord, ::mc-veo::mapping::IDepthMap2d &depthmap,
+            const std::vector<cv::Point2d> &coord, ::mc_veo::mapping::IDepthMap2d &depthmap,
             const ::base::Affine3d &T, const cv::Size &out_size)
 {
     /** Clean before creating a new Keyframe image**/
@@ -474,7 +474,7 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
 
     this->idx = idx; this->time = time; this->percent_points = percent_points; this->T_w_kf = T;
     std::cout<<"[KEY_FRAME] IDX: "<<idx<<" TIME: "<<time.toMicroseconds() <<std::endl;
-    std::cout<<"[KEY_FRAME] img.type: "<<mc-veo::utils::type2str(img.type()) <<std::endl;
+    std::cout<<"[KEY_FRAME] img.type: "<<mc_veo::utils::type2str(img.type()) <<std::endl;
 
     /** IMPORTANT: Image is already undistorted **/
     this->img = img.clone();
@@ -562,10 +562,10 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
         this->setDepthMap(depthmap, min_depth, max_depth, 100, {1.0, 1.0});
 
         /** Create the point patches. Adaptive patch size defines as 7 for 240x180 **/
-        mc-veo::utils::splitImageInPatches(this->img, this->coord, this->patches, this->adaptive_patch_factor * (size.width * size.height));
+        mc_veo::utils::splitImageInPatches(this->img, this->coord, this->patches, this->adaptive_patch_factor * (size.width * size.height));
 
         /** Create the point bundle patches **/
-        mc-veo::utils::computeBundlePatches(this->patches, this->bundle_patches);
+        mc_veo::utils::computeBundlePatches(this->patches, this->bundle_patches);
 
         /** Initial residuals **/
         this->residuals.resize(this->coord.size(), 0.0);
@@ -590,7 +590,7 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
 }
 
 void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &img,
-            ::mc-veo::mapping::IDepthMap2d &depthmap,
+            ::mc_veo::mapping::IDepthMap2d &depthmap,
             const ::base::Affine3d &T, const cv::Size &out_size)
 {
     /** Clean before creating a new Keyframe image**/
@@ -599,7 +599,7 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
     this->idx = idx; this->time = time; this->percent_points = percent_points; this->T_w_kf = T;
     std::cout<<"[KEY_FRAME] IDX: "<<idx<<" TIME: "<<time.toMicroseconds() <<std::endl;
     std::cout<<"[KEY_FRAME] given depthmap with: "<<depthmap.size() <<" points"<<std::endl;
-    std::cout<<"[KEY_FRAME] img.type: "<<mc-veo::utils::type2str(img.type()) <<std::endl;
+    std::cout<<"[KEY_FRAME] img.type: "<<mc_veo::utils::type2str(img.type()) <<std::endl;
 
     /** IMPORTANT: Image is already undistorted but at the original size **/
     this->img = img.clone();
@@ -693,10 +693,10 @@ void KeyFrame::create(const uint64_t &idx, const ::base::Time &time, cv::Mat &im
 
 
         /** Create the point patches. Adaptive patch size defines as 7 **/
-        mc-veo::utils::splitImageInPatches(this->img, this->coord, this->patches);
+        mc_veo::utils::splitImageInPatches(this->img, this->coord, this->patches);
 
         /** Create the point bundle patches **/
-        mc-veo::utils::computeBundlePatches(this->patches, this->bundle_patches);
+        mc_veo::utils::computeBundlePatches(this->patches, this->bundle_patches);
 
         /** Initial residuals **/
         this->residuals.resize(this->coord.size(), 0.0);
@@ -777,7 +777,7 @@ void KeyFrame::candidatePoints(std::vector<cv::Point2d> &coord, const cv::Size &
             for(std::vector<cv::Mat>::iterator patch=patches.begin();
                 patch!=patches.end(); ++patch)
             {
-                //std::cout<<"patch size: "<<patch->size()<<mc-veo::utils::type2str(patch->type())<<std::endl;
+                //std::cout<<"patch size: "<<patch->size()<<mc_veo::utils::type2str(patch->type())<<std::endl;
                 cv::Point &s_point = start_points[k];
                 for (int i=0; i<elem_per_patch; ++i)
                 {
@@ -801,7 +801,7 @@ void KeyFrame::candidatePoints(std::vector<cv::Point2d> &coord, const cv::Size &
                 patch!=patches.end(); ++patch)
             {
                 cv::Point &s_point = start_points[k];
-                double median = mc-veo::utils::medianMat(*patch);
+                double median = mc_veo::utils::medianMat(*patch);
                 //cv::Scalar mean = cv::mean(*patch);
                 //std::cout<<"median: "<<median<<std::endl;
                 //std::cout<<"mean: "<<mean.val[0]<<std::endl;
@@ -912,7 +912,7 @@ bool KeyFrame::initialStructure(const cv::Mat &input, Eigen::Matrix3d &Rotation,
 
 
    // /** Draw Epilines corresponding to points in KF and draw in the input img **/
-   cv::Mat img_epi = ::mc-veo::utils::epilinesViz(img_in, lines, 1);
+   cv::Mat img_epi = ::mc_veo::utils::epilinesViz(img_in, lines, 1);
 
    cv::Mat img_matches;
    cv::drawMatches(img_kf, keypoints1, img_in, keypoints2, good_matches, img_matches, cv::Scalar::all(-1),
@@ -992,7 +992,7 @@ void KeyFrame::trackPoints(const cv::Mat &img, const int &border_type, const uin
     }
     uint16_t patch_radius = this->patches[0].cols * 2;
     std::vector<cv::Mat> img_patches;
-    mc-veo::utils::splitImageInPatches(img, track_coord, img_patches, patch_radius, border_type, border_value);
+    mc_veo::utils::splitImageInPatches(img, track_coord, img_patches, patch_radius, border_type, border_value);
     idx = 0;
     auto it_c =  this->coord.begin();
     auto it_p = this->patches.begin();
@@ -1002,9 +1002,9 @@ void KeyFrame::trackPoints(const cv::Mat &img, const int &border_type, const uin
     {
         cv::Mat img; (*it_img).convertTo(img, CV_32FC1);
         cv::Point2d center ((img.cols - (*it_p).cols + 1)/2.0, (img.rows - (*it_p).rows + 1)/2.0);
-        cv::Point2d p_ssd = *it_tr + (mc-veo::utils::matchTemplate(mc-veo::utils::viz(img-cv::mean(img)), mc-veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_SQDIFF_NORMED) - center);
-        cv::Point2d p_ncc = *it_tr + (mc-veo::utils::matchTemplate(mc-veo::utils::viz(img-cv::mean(img)), mc-veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_CCORR_NORMED) - center);
-        cv::Point2d flow = mc-veo::utils::matchTemplate(mc-veo::utils::viz(img-cv::mean(img)), mc-veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_SQDIFF_NORMED) - center;
+        cv::Point2d p_ssd = *it_tr + (mc_veo::utils::matchTemplate(mc_veo::utils::viz(img-cv::mean(img)), mc_veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_SQDIFF_NORMED) - center);
+        cv::Point2d p_ncc = *it_tr + (mc_veo::utils::matchTemplate(mc_veo::utils::viz(img-cv::mean(img)), mc_veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_CCORR_NORMED) - center);
+        cv::Point2d flow = mc_veo::utils::matchTemplate(mc_veo::utils::viz(img-cv::mean(img)), mc_veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_SQDIFF_NORMED) - center;
         if (cv::norm(p_ssd-p_ncc) < 2)
         {
             std::cout<<"** [TEST] coord["<<idx<<"]: "<<*it_c<<" p_ssd: "<<p_ssd<<" p_ncc: "<<p_ncc
@@ -1022,12 +1022,12 @@ void KeyFrame::trackPoints(const cv::Mat &img, const int &border_type, const uin
     ////auto it_tr = tracker_coord.begin();
     ////for (; it_p != this->patches.end(); ++idx, ++it_c, ++it_p)
     //{
-    //    cv::Point2d p_ssd = mc-veo::utils::matchTemplate(mc-veo::utils::viz(match_img-cv::mean(match_img)), mc-veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_SQDIFF_NORMED);
-    //    cv::Point2d p_ncc = mc-veo::utils::matchTemplate(mc-veo::utils::viz(match_img-cv::mean(match_img)), mc-veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_CCORR_NORMED);
+    //    cv::Point2d p_ssd = mc_veo::utils::matchTemplate(mc_veo::utils::viz(match_img-cv::mean(match_img)), mc_veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_SQDIFF_NORMED);
+    //    cv::Point2d p_ncc = mc_veo::utils::matchTemplate(mc_veo::utils::viz(match_img-cv::mean(match_img)), mc_veo::utils::viz(*it_p-cv::mean(*it_p)), cv::TM_CCORR_NORMED);
     //    std::cout<<"** [TEST] coord["<<idx<<"]: "<<*it_c<<" p_ssd: "<<p_ssd<<" p_ncc: "<<p_ncc
     //    <<" diff: "<<std::fabs(cv::norm(p_ssd)-cv::norm(p_ncc)) <<std::endl;
     //    this->tracks[idx] = Eigen::Vector2d(p_ssd.x-(*it_c).x, p_ssd.y-(*it_c).y);
-    //    cv::imwrite("/tmp/patch_"+std::to_string(idx)+".png", mc-veo::utils::viz(*it_p));
+    //    cv::imwrite("/tmp/patch_"+std::to_string(idx)+".png", mc_veo::utils::viz(*it_p));
     //}
 }
 
@@ -1036,7 +1036,7 @@ void KeyFrame::pointsRefinement(const cv::Mat &event_frame, const double &event_
 {
     /** Split the image in patches **/
     std::vector<cv::Mat> event_patches;
-    mc-veo::utils::splitImageInPatches(event_frame, this->coord, event_patches, patch_radius, border_type, border_value);
+    mc_veo::utils::splitImageInPatches(event_frame, this->coord, event_patches, patch_radius, border_type, border_value);
 
     int idx = 0;
     int num_removed_points = 0;
@@ -1060,7 +1060,7 @@ void KeyFrame::pointsRefinement(const cv::Mat &event_frame, const double &event_
     std::cout<<"[KEY_FRAME] KF["<<this->idx<<"] Points Refinement. New Number points: "<<this->num_points<<" removed["<<num_removed_points<<"]"<<std::endl;
 }
 
-mc-veo::tracking::KFPointIterators KeyFrame::erasePoint(const int &idx)
+mc_veo::tracking::KFPointIterators KeyFrame::erasePoint(const int &idx)
 {
     /** It is very important to keep consistency size **/
     assert(this->coord.size() == this->norm_coord.size());
@@ -1073,7 +1073,7 @@ mc-veo::tracking::KFPointIterators KeyFrame::erasePoint(const int &idx)
     assert(this->tracks.size() == this->flow.size());
     assert(this->flow.size() == this->inv_depth.size());
 
-    mc-veo::tracking::KFPointIterators its;
+    mc_veo::tracking::KFPointIterators its;
 
     /** delete pixel coord **/
     its.coord = this->coord.erase(this->coord.begin()+idx);
@@ -1119,7 +1119,7 @@ cv::Mat KeyFrame::viz(const cv::Mat &img, bool color)
     norm_img.convertTo(img_viz, CV_8UC1, 255, 0);
     if (color)
     {
-        mc-veo::utils::BlueWhiteRed bwr;
+        mc_veo::utils::BlueWhiteRed bwr;
         bwr(img_viz, img_viz);
         //cv::applyColorMap(img_viz, img_viz, cv::COLORMAP_JET);
     }
@@ -1127,17 +1127,17 @@ cv::Mat KeyFrame::viz(const cv::Mat &img, bool color)
     return img_viz;
 }
 
-void KeyFrame::setDepthMap(::mc-veo::mapping::IDepthMap2d &depthmap, const ::mc-veo::mapping::Config &map_info)
+void KeyFrame::setDepthMap(::mc_veo::mapping::IDepthMap2d &depthmap, const ::mc_veo::mapping::Config &map_info)
 {
     this->setDepthMap(depthmap, map_info.min_depth, map_info.max_depth, map_info.convergence_sigma2_thresh, this->out_scale);
 }
 
-void KeyFrame::setDepthMap(::mc-veo::mapping::IDepthMap2d &depthmap, const ::mc-veo::mapping::Config &map_info, const std::array<double, 2> &scale)
+void KeyFrame::setDepthMap(::mc_veo::mapping::IDepthMap2d &depthmap, const ::mc_veo::mapping::Config &map_info, const std::array<double, 2> &scale)
 {
     this->setDepthMap(depthmap, map_info.min_depth, map_info.max_depth, map_info.convergence_sigma2_thresh, scale);
 }
 
-void KeyFrame::setDepthMap(::mc-veo::mapping::IDepthMap2d &depthmap, const double &min_depth, const double &max_depth,
+void KeyFrame::setDepthMap(::mc_veo::mapping::IDepthMap2d &depthmap, const double &min_depth, const double &max_depth,
                         const double &convergence_sigma2_thresh, const std::array<double, 2> &scale)
 {
     /* Local inverse depth vector**/
@@ -1152,11 +1152,11 @@ void KeyFrame::setDepthMap(::mc-veo::mapping::IDepthMap2d &depthmap, const doubl
         std::cout<<"[KEY_FRAME] Given depthmap"<<std::endl;
 
         /** Create the KDTree to search **/
-        ::mc-veo::mapping::KDTree<mc-veo::mapping::Point2d> kdtree(depthmap.coord);
+        ::mc_veo::mapping::KDTree<mc_veo::mapping::Point2d> kdtree(depthmap.coord);
         for (auto point=this->coord.begin(); point!=this->coord.end(); ++point)
         {
             /** Create the query point **/
-            const mc-veo::mapping::Point2d query(point->x * scale[0], point->y * scale[1]);
+            const mc_veo::mapping::Point2d query(point->x * scale[0], point->y * scale[1]);
             /** Index of the closest **/
             const int idx = kdtree.nnSearch(query);
             /** Push the inverse depth value **/
@@ -1232,7 +1232,7 @@ std::vector<base::Point> KeyFrame::getDepthMap()
     auto it_i=this->inv_depth.begin();
     for(;it_p<this->coord.end(); ++it_p, ++it_i)
     {
-        double d_i = 1.0/::mc-veo::mapping::mu(*it_i);
+        double d_i = 1.0/::mc_veo::mapping::mu(*it_i);
         pcl.push_back(::base::Point(d_i*(((*it_p).x-cx)/fx), d_i*(((*it_p).y-cy)/fy), d_i));
     }
 
@@ -1314,7 +1314,7 @@ cv::Mat KeyFrame::getGradientMagnitude(const std::vector<cv::Point2d> &coord, co
     {
         magnitude.push_back(cv::norm(*it));
     }
-    cv::Mat img = mc-veo::utils::drawValuesPoints(coord, magnitude, this->img.rows, this->img.cols, method, s);
+    cv::Mat img = mc_veo::utils::drawValuesPoints(coord, magnitude, this->img.rows, this->img.cols, method, s);
 
     return img;
 }
@@ -1331,7 +1331,7 @@ cv::Mat KeyFrame::getGradient_x(const std::vector<cv::Point2d> &coord, const std
     {
         grad_x.push_back(it->x);
     }
-    cv::Mat img = mc-veo::utils::drawValuesPoints(coord, grad_x, this->img.rows, this->img.cols, method, s);
+    cv::Mat img = mc_veo::utils::drawValuesPoints(coord, grad_x, this->img.rows, this->img.cols, method, s);
 
     return img;
 }
@@ -1348,7 +1348,7 @@ cv::Mat KeyFrame::getGradient_y(const std::vector<cv::Point2d> &coord, const std
     {
         grad_y.push_back(it->y);
     }
-    cv::Mat img = mc-veo::utils::drawValuesPoints(coord, grad_y, this->img.rows, this->img.cols, method, s);
+    cv::Mat img = mc_veo::utils::drawValuesPoints(coord, grad_y, this->img.rows, this->img.cols, method, s);
 
     return img;
 }
@@ -1380,7 +1380,7 @@ std::vector<double> KeyFrame::getSparseModel(const std::vector<cv::Point2d> &coo
         c.y = (it_c->y - cy)/fy; //y-coordinate
         /** Compute the flow using depth **/
         Eigen::Vector2d f;
-        ::mc-veo::utils::compute_flow(c.x, c.y, vx, wx, ::mc-veo::mapping::mu(*it_d), f);
+        ::mc_veo::utils::compute_flow(c.x, c.y, vx, wx, ::mc_veo::mapping::mu(*it_d), f);
         flow.push_back(f);
     }
 
@@ -1420,7 +1420,7 @@ cv::Mat KeyFrame::getModel(const std::vector<cv::Point2d> &coord, const Eigen::V
     std::vector<double> model = this->getSparseModel(coord, vx, wx);
 
     /** The model image **/
-    cv::Mat img = mc-veo::utils::drawValuesPoints(coord, model, this->img.rows, this->img.cols, method, s);
+    cv::Mat img = mc_veo::utils::drawValuesPoints(coord, model, this->img.rows, this->img.cols, method, s);
 
     return img;
 }
@@ -1543,13 +1543,13 @@ cv::Mat KeyFrame::eventsOnKeyFrameViz(const cv::Mat &event_frame)
 
 void KeyFrame::meanResiduals(double &mean, double &st_dev)
 {
-    ::mc-veo::utils::mean_std_vector(this->residuals, mean, st_dev);
+    ::mc_veo::utils::mean_std_vector(this->residuals, mean, st_dev);
 }
 
 void KeyFrame::medianResiduals(double &median, double &third_q)
 {
-    median = mc-veo::utils::n_quantile_vector(this->residuals, this->residuals.size()/2);
-    third_q = mc-veo::utils::n_quantile_vector(this->residuals, this->residuals.size()/3);
+    median = mc_veo::utils::n_quantile_vector(this->residuals, this->residuals.size()/2);
+    third_q = mc_veo::utils::n_quantile_vector(this->residuals, this->residuals.size()/3);
 }
 
 bool KeyFrame::needNewKF(const double &percent_thr)

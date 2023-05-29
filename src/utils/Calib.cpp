@@ -25,7 +25,7 @@
 
 #include <opencv2/core/eigen.hpp>
 
-namespace mc-veo { namespace calib {
+namespace mc_veo { namespace calib {
 
 void CameraInfo::toDSOFormat(const std::string &filename)
 {
@@ -65,9 +65,9 @@ void CameraInfo::toDSOFormat(const std::string &filename)
     myfile.close();
 }
 
-::mc-veo::calib::CameraInfo readCameraCalib(YAML::Node cam_calib)
+::mc_veo::calib::CameraInfo readCameraCalib(YAML::Node cam_calib)
 {
-    ::mc-veo::calib::CameraInfo cam_info;
+    ::mc_veo::calib::CameraInfo cam_info;
 
     cam_info.width = cam_calib["resolution"][0].as<uint16_t>();
     cam_info.height = cam_calib["resolution"][1].as<uint16_t>();
@@ -126,9 +126,9 @@ void CameraInfo::toDSOFormat(const std::string &filename)
     return cam_info;
 }
 
-::mc-veo::calib::DualCamera readDualCalibration(YAML::Node cam_calib)
+::mc_veo::calib::DualCamera readDualCalibration(YAML::Node cam_calib)
 {
-    ::mc-veo::calib::DualCamera calib;
+    ::mc_veo::calib::DualCamera calib;
 
     auto read_extrinsics = [](YAML::Node &node)
     {
@@ -143,18 +143,18 @@ void CameraInfo::toDSOFormat(const std::string &filename)
         T(3,3) = 1.0;
         base::Transform3d trans; trans.matrix() = T; 
         //std::cout<<trans.matrix()<<std::endl;
-        ::mc-veo::calib::Baseline baseline;
+        ::mc_veo::calib::Baseline baseline;
         baseline.rotation = base::Quaterniond(trans.rotation());
         baseline.translation = trans.translation();
         return baseline;
     };
 
     YAML::Node cam0 = cam_calib["cam0"];
-    calib.cam0 = ::mc-veo::calib::readCameraCalib(cam0);//rgb camera
+    calib.cam0 = ::mc_veo::calib::readCameraCalib(cam0);//rgb camera
     if (cam_calib["cam1"])
     {
         YAML::Node cam1 = cam_calib["cam1"];
-        calib.cam1 = ::mc-veo::calib::readCameraCalib(cam1);// event camera
+        calib.cam1 = ::mc_veo::calib::readCameraCalib(cam1);// event camera
 
         if (cam1["T_cn_cnm1"])
         {
@@ -163,7 +163,7 @@ void CameraInfo::toDSOFormat(const std::string &filename)
     }
     else
     {
-        calib.cam1 = ::mc-veo::calib::readCameraCalib(cam0);//event camera is the same as rgb camera
+        calib.cam1 = ::mc_veo::calib::readCameraCalib(cam0);//event camera is the same as rgb camera
         calib.extrinsics.rotation = base::Quaterniond::Identity();
         calib.extrinsics.translation = base::Vector3d::Zero();
     }
@@ -171,14 +171,14 @@ void CameraInfo::toDSOFormat(const std::string &filename)
     return calib;
 }
 
-::mc-veo::calib::Camera setNewCamera(const ::mc-veo::calib::Camera &cam0, const ::mc-veo::calib::Camera &cam1)
+::mc_veo::calib::Camera setNewCamera(const ::mc_veo::calib::Camera &cam0, const ::mc_veo::calib::Camera &cam1)
 {
-    return ::mc-veo::calib::setNewCamera(cam0, cam1, cam0.size);
+    return ::mc_veo::calib::setNewCamera(cam0, cam1, cam0.size);
 }
 
-::mc-veo::calib::Camera setNewCamera(const ::mc-veo::calib::Camera &cam0, const ::mc-veo::calib::Camera &cam1, const cv::Size out_size)
+::mc_veo::calib::Camera setNewCamera(const ::mc_veo::calib::Camera &cam0, const ::mc_veo::calib::Camera &cam1, const cv::Size out_size)
 {
-    ::mc-veo::calib::Camera newcam;
+    ::mc_veo::calib::Camera newcam;
 
 
     newcam.size = cv::Size(cam0.size);
@@ -188,7 +188,7 @@ void CameraInfo::toDSOFormat(const std::string &filename)
     return newcam;
 }
 
-void getMapping(::mc-veo::calib::Camera &cam0, ::mc-veo::calib::Camera &cam1, ::mc-veo::calib::Camera &newcam)
+void getMapping(::mc_veo::calib::Camera &cam0, ::mc_veo::calib::Camera &cam1, ::mc_veo::calib::Camera &newcam)
 {
     if (cam0.distortion_model.compare("equidistant") != 0 && cam1.distortion_model.compare("equidistant") != 0)
     {
@@ -219,7 +219,7 @@ void getMapping(::mc-veo::calib::Camera &cam0, ::mc-veo::calib::Camera &cam1, ::
     std::cout<<"** newcam.K * newcam.R * cam1.R.t:\n"<< newcam.K * newcam.R * cam1.R.t()<<std::endl;
 }
 
-void getEventUndistCoord (const ::mc-veo::calib::Camera &event_camera, const ::mc-veo::calib::Camera &new_camera, std::vector<cv::Point2d> &undist_coord)
+void getEventUndistCoord (const ::mc_veo::calib::Camera &event_camera, const ::mc_veo::calib::Camera &new_camera, std::vector<cv::Point2d> &undist_coord)
 {
     std::vector<cv::Point2d> coord;
     for (int x=0; x<event_camera.size.width; ++x)
@@ -235,7 +235,7 @@ void getEventUndistCoord (const ::mc-veo::calib::Camera &event_camera, const ::m
 }
 
 
-Camera::Camera(const ::mc-veo::calib::CameraInfo &cam_info, const base::Quaterniond &rotation)
+Camera::Camera(const ::mc_veo::calib::CameraInfo &cam_info, const base::Quaterniond &rotation)
 {
     size.height = cam_info.height;
     size.width = cam_info.width;
@@ -291,4 +291,4 @@ void Camera::toDSOFormat(const std::string &filename)
     myfile.close();
 }
 
-}} //end namespace mc-veo::utils
+}} //end namespace mc_veo::utils

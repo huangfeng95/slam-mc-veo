@@ -29,7 +29,7 @@
 #include <vector>
 #include <string>
 
-namespace mc-veo { namespace bundles{
+namespace mc_veo { namespace bundles{
 
     enum LOSS_FUNCTION{NONE, HUBER, CAUCHY};
     enum LINEAR_SOLVER_TYPE{DENSE_QR, DENSE_SCHUR, SPARSE_SCHUR, SPARSE_NORMAL_CHOLESKY};
@@ -63,31 +63,31 @@ namespace mc-veo { namespace bundles{
         uint8_t success;
     };
 
-    inline ::mc-veo::bundles::LOSS_FUNCTION selectLoss(const std::string &loss_name)
+    inline ::mc_veo::bundles::LOSS_FUNCTION selectLoss(const std::string &loss_name)
     {
         if (loss_name.compare("Huber") == 0)
-            return mc-veo::bundles::HUBER;
+            return mc_veo::bundles::HUBER;
         else if (loss_name.compare("Cauchy") == 0)
-            return mc-veo::bundles::CAUCHY;
+            return mc_veo::bundles::CAUCHY;
         else
-            return mc-veo::bundles::NONE;
+            return mc_veo::bundles::NONE;
     };
 
-    inline ::mc-veo::bundles::LINEAR_SOLVER_TYPE selectSolver(const std::string &solver_name)
+    inline ::mc_veo::bundles::LINEAR_SOLVER_TYPE selectSolver(const std::string &solver_name)
     {
         if (solver_name.compare("DENSE_QR") == 0)
-            return mc-veo::bundles::DENSE_QR;
+            return mc_veo::bundles::DENSE_QR;
         else if (solver_name.compare("DENSE_SCHUR") == 0)
-            return mc-veo::bundles::DENSE_SCHUR;
+            return mc_veo::bundles::DENSE_SCHUR;
         else if (solver_name.compare("SPARSE_SCHUR") == 0)
-            return mc-veo::bundles::SPARSE_SCHUR;
+            return mc_veo::bundles::SPARSE_SCHUR;
         else
-            return mc-veo::bundles::SPARSE_NORMAL_CHOLESKY;
+            return mc_veo::bundles::SPARSE_NORMAL_CHOLESKY;
     };
 
-    inline ::mc-veo::bundles::Config readBundlesConfig(YAML::Node config)
+    inline ::mc_veo::bundles::Config readBundlesConfig(YAML::Node config)
     {
-        ::mc-veo::bundles::Config bundles_config;
+        ::mc_veo::bundles::Config bundles_config;
 
         /** Number of points to optimize within the current window **/
         bundles_config.percent_points = config["percent_points"].as<double>();
@@ -101,12 +101,12 @@ namespace mc-veo { namespace bundles{
         /** Config the loss **/
         YAML::Node bundles_loss = config["loss_function"];
         std::string loss_name = bundles_loss["type"].as<std::string>();
-        bundles_config.loss_type = ::mc-veo::bundles::selectLoss(loss_name);
+        bundles_config.loss_type = ::mc_veo::bundles::selectLoss(loss_name);
         bundles_config.loss_params = bundles_loss["param"].as< std::vector<double> >();
 
         /** Config for ceres options **/
         YAML::Node tracker_options = config["options"];
-        bundles_config.options.linear_solver_type = ::mc-veo::bundles::selectSolver(tracker_options["solver_type"].as<std::string>());
+        bundles_config.options.linear_solver_type = ::mc_veo::bundles::selectSolver(tracker_options["solver_type"].as<std::string>());
         bundles_config.options.num_threads = tracker_options["num_threads"].as<int>();
         bundles_config.options.max_num_iterations = tracker_options["max_num_iterations"].as<int>();
         bundles_config.options.function_tolerance = tracker_options["function_tolerance"].as<double>();

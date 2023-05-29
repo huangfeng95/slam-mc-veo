@@ -24,7 +24,7 @@
 #include <frame_helper/FrameHelper.h>
 #include <mc-veo/io/ImageConvert.h>
 
-namespace mc-veo { namespace io
+namespace mc_veo { namespace io
 {
 
 dso::MinimalImageB3* toMinimalImageB3(const Eigen::Vector3f *fd, const int &w, const int &h)

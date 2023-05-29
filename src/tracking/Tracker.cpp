@@ -31,16 +31,16 @@
 
 #include <iostream>
 
-using namespace mc-veo::tracking;
+using namespace mc_veo::tracking;
 
-Tracker::Tracker(std::shared_ptr<mc-veo::tracking::KeyFrame> kf, const mc-veo::tracking::Config &config)
+Tracker::Tracker(std::shared_ptr<mc_veo::tracking::KeyFrame> kf, const mc_veo::tracking::Config &config)
 {
     (*this) = Tracker(config);
     this->kf = kf;
     std::cout<<"[TRACKER] KF address: "<<std::addressof(*(this->kf))<<std::endl;
 }
 
-Tracker::Tracker(const mc-veo::tracking::Config &config)
+Tracker::Tracker(const mc_veo::tracking::Config &config)
 {
     this->config = config;
     this->px = Eigen::Vector3d::Zero();
@@ -49,7 +49,7 @@ Tracker::Tracker(const mc-veo::tracking::Config &config)
     this->vx.normalize();
 }
 
-void Tracker::reset(std::shared_ptr<mc-veo::tracking::KeyFrame> kf, const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, const bool &keep_velo)
+void Tracker::reset(std::shared_ptr<mc_veo::tracking::KeyFrame> kf, const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, const bool &keep_velo)
 {
     this->kf = kf;
     this->px = px;
@@ -65,7 +65,7 @@ void Tracker::reset(std::shared_ptr<mc-veo::tracking::KeyFrame> kf, const Eigen:
     std::cout<<"[TRACKER] New KF at address: "<<std::addressof(*(this->kf))<<std::endl;
 }
 
-void Tracker::reset(std::shared_ptr<mc-veo::tracking::KeyFrame> kf, const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, const base::Vector6d &velo)
+void Tracker::reset(std::shared_ptr<mc_veo::tracking::KeyFrame> kf, const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, const base::Vector6d &velo)
 {
     this->kf = kf;
     this->px = px;
@@ -83,7 +83,7 @@ void Tracker::set(const base::Transform3d &T_kf_ef)
 
 void Tracker::optimize(const int &id, const std::vector<double> *event_frame, ::base::Transform3d &T_kf_ef,
                         const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, 
-                        const mc-veo::tracking::LOSS_PARAM_METHOD loss_param_method)
+                        const mc_veo::tracking::LOSS_PARAM_METHOD loss_param_method)
 {
     /** Init position and quaternion **/
     this->px = px;
@@ -95,7 +95,7 @@ void Tracker::optimize(const int &id, const std::vector<double> *event_frame, ::
 
 void Tracker::optimize(const int &id, const std::vector<double> *event_frame, ::base::Transform3d &T_kf_ef, 
                         const Eigen::Matrix<double, 6, 1> &vx, 
-                        const mc-veo::tracking::LOSS_PARAM_METHOD loss_param_method)
+                        const mc_veo::tracking::LOSS_PARAM_METHOD loss_param_method)
 {
     /** Init velocity parameters **/
     this->vx = vx;
@@ -105,7 +105,7 @@ void Tracker::optimize(const int &id, const std::vector<double> *event_frame, ::
 }
 
 bool Tracker::optimize(const int &id, const std::vector<double> *event_frame, ::base::Transform3d &T_kf_ef,
-                        const mc-veo::tracking::LOSS_PARAM_METHOD loss_param_method)
+                        const mc_veo::tracking::LOSS_PARAM_METHOD loss_param_method)
 {
     /* Ceres problem **/
     ceres::Problem problem;
@@ -114,7 +114,7 @@ bool Tracker::optimize(const int &id, const std::vector<double> *event_frame, ::
     ceres::LocalParameterization* quaternion_local_parameterization =
       new ceres::EigenQuaternionParameterization;
     ceres::LocalParameterization* velocity_local_parameterization =
-      new ceres::AutoDiffLocalParameterization<mc-veo::tracking::UnitNormVectorAddition, 6, 6>;
+      new ceres::AutoDiffLocalParameterization<mc_veo::tracking::UnitNormVectorAddition, 6, 6>;
 
     /** Ceres options **/
     switch(config.options.linear_solver_type)
@@ -251,7 +251,7 @@ bool Tracker::optimize(const int &id, const std::vector<double> *event_frame, ::
 }
 
 bool Tracker::optimize(const int &id, const double event_time, const Eigen::Affine3d &pose_w_kf, const std::vector<double> *event_frame, ::base::Transform3d &T_kf_ef,
-                        const mc-veo::tracking::LOSS_PARAM_METHOD loss_param_method)
+                        const mc_veo::tracking::LOSS_PARAM_METHOD loss_param_method)
 {
     /* Ceres problem **/
     ceres::Problem problem;
@@ -260,7 +260,7 @@ bool Tracker::optimize(const int &id, const double event_time, const Eigen::Affi
     ceres::LocalParameterization* quaternion_local_parameterization =
       new ceres::EigenQuaternionParameterization;
     ceres::LocalParameterization* velocity_local_parameterization =
-      new ceres::AutoDiffLocalParameterization<mc-veo::tracking::UnitNormVectorAddition, 6, 6>;
+      new ceres::AutoDiffLocalParameterization<mc_veo::tracking::UnitNormVectorAddition, 6, 6>;
 
     /** Ceres options **/
     switch(config.options.linear_solver_type)
@@ -439,7 +439,7 @@ bool Tracker::optimize(const int &id, const double event_time, const Eigen::Affi
 
 ::base::Transform3d Tracker::getTransform()
 {
-    ::mc-veo::SE3 se3(this->qx, this->px);
+    ::mc_veo::SE3 se3(this->qx, this->px);
     base::Transform3d pose = base::Transform3d::Identity();
     pose.matrix() = se3.matrix();
     return pose;
@@ -447,7 +447,7 @@ bool Tracker::optimize(const int &id, const double event_time, const Eigen::Affi
 
 ::base::Transform3d Tracker::getTransform(bool &result)
 {
-    ::mc-veo::SE3 se3(this->qx, this->px);
+    ::mc_veo::SE3 se3(this->qx, this->px);
     this->poses.push_back(se3);
     result = this->getFilteredPose(se3);
     base::Transform3d pose = base::Transform3d::Identity();
@@ -475,7 +475,7 @@ const Eigen::Vector3d Tracker::angularVelocity()
     return w;
 }
 
-std::vector<double> Tracker::getLossParams(mc-veo::tracking::LOSS_PARAM_METHOD method)
+std::vector<double> Tracker::getLossParams(mc_veo::tracking::LOSS_PARAM_METHOD method)
 {
 
     /** See Pages 19, 20 and 75 in Simon Klenk's Msc Thesis:
@@ -489,12 +489,12 @@ std::vector<double> Tracker::getLossParams(mc-veo::tracking::LOSS_PARAM_METHOD m
         case MAD:
         {
             std::vector<double> abs_med;
-            double median = mc-veo::utils::n_quantile_vector(this->kf->residuals, this->kf->residuals.size()/2);
+            double median = mc_veo::utils::n_quantile_vector(this->kf->residuals, this->kf->residuals.size()/2);
             for (auto it=this->kf->residuals.begin(); it!=this->kf->residuals.end(); ++it)
             {
                 abs_med.push_back(std::abs(*it- median));
             }
-            double mad = 1.4826 * mc-veo::utils::n_quantile_vector(abs_med, abs_med.size()/2);
+            double mad = 1.4826 * mc_veo::utils::n_quantile_vector(abs_med, abs_med.size()/2);
             std::cout<<"[TRACKER] MAD median: "<<median<<" MAD: "<<mad<<" tau: "<<1.345*mad<<std::endl;
             std::vector<double> params; params.push_back(1.345 * mad);
             return params;
@@ -503,7 +503,7 @@ std::vector<double> Tracker::getLossParams(mc-veo::tracking::LOSS_PARAM_METHOD m
         case STD:
         {
             double mean, st_dev;
-            mc-veo::utils::mean_std_vector(this->kf->residuals, mean, st_dev);
+            mc_veo::utils::mean_std_vector(this->kf->residuals, mean, st_dev);
             std::cout<<"[TRACKER] STD mean: "<<mean<<" st_dev: "<<st_dev<<" tau: "<<1.345*st_dev<<std::endl;
             std::vector<double>params; params.push_back(1.345 * st_dev);
             return params;
@@ -535,7 +535,7 @@ std::vector<cv::Point2d> Tracker::getCoord(const bool &delete_out_point)
     for (; it_c != this->kf->norm_coord.end() && it_i != this->kf->inv_depth.end();)
     {
         Eigen::Vector3d p;
-        p[2] = 1.0/::mc-veo::mapping::mu(*it_i);
+        p[2] = 1.0/::mc_veo::mapping::mu(*it_i);
         p[0] = (*it_c).x * p[2];
         p[1] = (*it_c).y * p[2];
         p = R * p + this->px; // point in the event frame
@@ -583,17 +583,17 @@ void Tracker::trackPoints(const cv::Mat &event_frame, const uint16_t &patch_radi
 
     /** Gradient patches **/
     std::vector<cv::Mat> grad_patches_x, grad_patches_y;
-    mc-veo::utils::splitImageInPatches(grad_x, coord, grad_patches_x, patch_radius);
-    mc-veo::utils::splitImageInPatches(grad_y, coord, grad_patches_y, patch_radius);
+    mc_veo::utils::splitImageInPatches(grad_x, coord, grad_patches_x, patch_radius);
+    mc_veo::utils::splitImageInPatches(grad_y, coord, grad_patches_y, patch_radius);
 
     /** Event frame patches **/
     std::vector<cv::Mat> event_patches;
-    mc-veo::utils::splitImageInPatches(event_frame, coord, event_patches, patch_radius);
+    mc_veo::utils::splitImageInPatches(event_frame, coord, event_patches, patch_radius);
 
     /** Brightness model change **/
     //cv::Mat model = this->kf->getModel(coord, this->vx, this->wx, "bilinear");
     //std::vector<cv::Mat> model_patches;
-    //mc-veo::utils::splitImageInPatches(model, coord, model_patches, patch_radius);
+    //mc_veo::utils::splitImageInPatches(model, coord, model_patches, patch_radius);
 
     /** Compute the optical flow (pixel displacement)**/
     int idx = 0;
@@ -605,7 +605,7 @@ void Tracker::trackPoints(const cv::Mat &event_frame, const uint16_t &patch_radi
     for (; it_c != coord.end();)
     {
         /** KLT tracker **/
-        Eigen::Vector2d f = ::mc-veo::utils::kltTracker(*it_patch_x, *it_patch_y, *it_patch_e);
+        Eigen::Vector2d f = ::mc_veo::utils::kltTracker(*it_patch_x, *it_patch_y, *it_patch_e);
         this->kf->flow[idx] = f;//2D-flow in x-y axis in this order
         /** Update the active points tracks in keyframe **/
         //std::cout<<"[TRACKER] point["<<i<<"] size "<<grad_patches_y[i].size()<<" f["<<f[0]<<","<<f[1]<<"]"
@@ -646,12 +646,12 @@ void Tracker::trackPointsPyr(const cv::Mat &event_frame, const size_t num_level)
 
     /** Gradient patches **/
     std::vector<cv::Mat> grad_patches_x, grad_patches_y;
-    mc-veo::utils::splitImageInPatches(grad_x, coord, grad_patches_x, patch_radius);
-    mc-veo::utils::splitImageInPatches(grad_y, coord, grad_patches_y, patch_radius);
+    mc_veo::utils::splitImageInPatches(grad_x, coord, grad_patches_x, patch_radius);
+    mc_veo::utils::splitImageInPatches(grad_y, coord, grad_patches_y, patch_radius);
 
     /** Event frame patches **/
     std::vector<cv::Mat> event_patches;
-    mc-veo::utils::splitImageInPatches(event_frame, coord, event_patches, patch_radius);
+    mc_veo::utils::splitImageInPatches(event_frame, coord, event_patches, patch_radius);
 
     /** Compute the optical flow (pixel displacement)
      * per point with num pyramid level **/
@@ -659,18 +659,18 @@ void Tracker::trackPointsPyr(const cv::Mat &event_frame, const size_t num_level)
     {
         /** Create pyramid **/
         std::vector<cv::Mat> grad_pyr_patches_x;
-        mc-veo::utils::pyramidPatches(grad_patches_x[i], grad_pyr_patches_x, num_level);
+        mc_veo::utils::pyramidPatches(grad_patches_x[i], grad_pyr_patches_x, num_level);
         std::vector<cv::Mat> grad_pyr_patches_y;
-        mc-veo::utils::pyramidPatches(grad_patches_y[i], grad_pyr_patches_y, num_level);
+        mc_veo::utils::pyramidPatches(grad_patches_y[i], grad_pyr_patches_y, num_level);
         std::vector<cv::Mat> event_pyr_patches;
-        mc-veo::utils::pyramidPatches(event_patches[i], event_pyr_patches, num_level);
+        mc_veo::utils::pyramidPatches(event_patches[i], event_pyr_patches, num_level);
 
         /** Compute flow per pyramid level **/
         Eigen::Vector2d f(0, 0);
         for (int j=num_level-1; j>-1; --j)
         {
             double scale = std::pow(2.0, static_cast<double>(j));
-            f += (1.0/scale) * ::mc-veo::utils::kltTracker(grad_pyr_patches_x[j], grad_pyr_patches_y[j], event_pyr_patches[j])/scale;
+            f += (1.0/scale) * ::mc_veo::utils::kltTracker(grad_pyr_patches_x[j], grad_pyr_patches_y[j], event_pyr_patches[j])/scale;
             //std::cout<<"point["<<i<<"] level["<<j<<"] scale: "<<scale<<" patch size: "
             //        <<event_pyr_patches[j].size()<<" f["<<f[0]<<","<<f[1]<<"]"<<std::endl;
         }
@@ -690,7 +690,7 @@ std::vector<cv::Point2d> Tracker::trackPointsAlongEpiline(const cv::Mat &event_f
     /** Brightness model change **/
     cv::Mat model = this->kf->getModel(this->linearVelocity(), this->angularVelocity(), "bilinear");
     std::vector<cv::Mat> model_patches;
-    mc-veo::utils::splitImageInPatches(model, this->kf->coord, model_patches, patch_radius, border_type, border_value);
+    mc_veo::utils::splitImageInPatches(model, this->kf->coord, model_patches, patch_radius, border_type, border_value);
 
     /** Get Epilines **/
     std::vector<cv::Vec3d> lines;
@@ -720,13 +720,13 @@ std::vector<cv::Point2d> Tracker::trackPointsAlongEpiline(const cv::Mat &event_f
         (*it_p).convertTo(*it_p, CV_32FC1);
         //cv::imwrite("/tmp/model_patch.png", this->kf->viz(model_patches[i]));
         cv::Mat result;
-        cv::Point2d p_ssd = mc-veo::utils::matchTemplate(event_img, *it_p, cv::TM_SQDIFF_NORMED);
-        cv::Point2d p_ncc = mc-veo::utils::matchTemplate(event_img, *it_p, cv::TM_CCORR_NORMED);
-        //double idepth = mc-veo::mapping::mu(*it_id);
-        //double sigma = std::sqrt(mc-veo::mapping::sigma2(*it_id));
-        //cv::Point2d p = ::mc-veo::utils::searchAlongEpiline(event_frame.size(), event_img, *it_p, *it_l,
+        cv::Point2d p_ssd = mc_veo::utils::matchTemplate(event_img, *it_p, cv::TM_SQDIFF_NORMED);
+        cv::Point2d p_ncc = mc_veo::utils::matchTemplate(event_img, *it_p, cv::TM_CCORR_NORMED);
+        //double idepth = mc_veo::mapping::mu(*it_id);
+        //double sigma = std::sqrt(mc_veo::mapping::sigma2(*it_id));
+        //cv::Point2d p = ::mc_veo::utils::searchAlongEpiline(event_frame.size(), event_img, *it_p, *it_l,
                        //                                 this->getTransform(), *it_nc, idepth, sigma,
-                       //                                 this->kf->K_ref, ::mc-veo::utils::ZSAD);
+                       //                                 this->kf->K_ref, ::mc_veo::utils::ZSAD);
         //std::cout<<"** [TRACKER] EPILINE SEARCH coord["<<idx<<"]: "<<*it_c<<" p_ssd: "<<p_ssd<<" p_ncc: "<<p_ncc
         //<<" p: " <<p<<" diff: "<<std::fabs(cv::norm(p_ssd)-cv::norm(p_ncc)) <<std::endl;//" tracker_coord: "<<*it_tr<<std::endl;
 
@@ -783,12 +783,12 @@ cv::Mat Tracker::getFMatrix()
     return K.t().inv() * this->getEMatrix() * K.inv();
 }
 
-::mc-veo::tracking::TrackerInfo Tracker::getInfo()
+::mc_veo::tracking::TrackerInfo Tracker::getInfo()
 {
     return this->info;
 }
 
-bool Tracker::getFilteredPose(mc-veo::SE3 &pose, const size_t &mean_filter_size)
+bool Tracker::getFilteredPose(mc_veo::SE3 &pose, const size_t &mean_filter_size)
 {
     if (mean_filter_size < 2)
     {
@@ -827,18 +827,18 @@ bool Tracker::getFilteredPose(mc-veo::SE3 &pose, const size_t &mean_filter_size)
 
         const base::Vector3d& t = this->poses[i].translation();
 
-        mc-veo::SE3 T(q_inc, t);
+        mc_veo::SE3 T(q_inc, t);
 
         P += T.log();
     }
 
     P /= num_elements;
-    mc-veo::SE3 T = SE3::exp(P);
+    mc_veo::SE3 T = SE3::exp(P);
 
     const Eigen::Vector3d& t_mean = T.translation();
     const base::Quaterniond q_mean = q0 * T.unit_quaternion();
 
-    mc-veo::SE3 filtered_pose(q_mean, t_mean);
+    mc_veo::SE3 filtered_pose(q_mean, t_mean);
     pose = filtered_pose;
 
     return true;

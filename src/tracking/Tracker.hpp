@@ -32,7 +32,7 @@
 #include <vector>
 #include <chrono>
 
-namespace mc-veo { namespace tracking{
+namespace mc_veo { namespace tracking{
 
 enum LOSS_PARAM_METHOD{CONSTANT, MAD, STD};
 
@@ -40,11 +40,11 @@ class Tracker
 {
     public:
         /** Configuration **/
-        ::mc-veo::tracking::Config config;
+        ::mc_veo::tracking::Config config;
 
     private:
         /** Pointer to KeyFrame **/
-        std::shared_ptr<mc-veo::tracking::KeyFrame> kf;
+        std::shared_ptr<mc_veo::tracking::KeyFrame> kf;
 
         /** Optimization parameters **/
         Eigen::Vector3d px;
@@ -52,42 +52,42 @@ class Tracker
         Eigen::Matrix<double, 6, 1> vx;
 
         /** Status Information **/
-        mc-veo::tracking::TrackerInfo info;
+        mc_veo::tracking::TrackerInfo info;
 
         double op_time = 0.0;
         int op_ef_num = 0;
 
         /** Vector of the last N poses **/
-        std::vector<mc-veo::SE3> poses;
+        std::vector<mc_veo::SE3> poses;
 
         /** Squared Norm Mean Flow **/
         double squared_norm_flow;
 
     public:
         /** @brief Default constructor */
-        Tracker(std::shared_ptr<mc-veo::tracking::KeyFrame> kf, const mc-veo::tracking::Config &config);
+        Tracker(std::shared_ptr<mc_veo::tracking::KeyFrame> kf, const mc_veo::tracking::Config &config);
         
         /** @brief Default constructor */
-        Tracker(const mc-veo::tracking::Config &config);
+        Tracker(const mc_veo::tracking::Config &config);
 
-        void reset(std::shared_ptr<mc-veo::tracking::KeyFrame> kf, const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, const bool &keep_velo = true);
+        void reset(std::shared_ptr<mc_veo::tracking::KeyFrame> kf, const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, const bool &keep_velo = true);
 
-        void reset(std::shared_ptr<mc-veo::tracking::KeyFrame> kf, const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, const base::Vector6d &velo);
+        void reset(std::shared_ptr<mc_veo::tracking::KeyFrame> kf, const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, const base::Vector6d &velo);
 
         void set(const base::Transform3d &T_kf_ef);
 
         void optimize(const int &id, const std::vector<double> *event_frame, ::base::Transform3d &T_kf_ef,
                     const Eigen::Vector3d &px, const Eigen::Quaterniond &qx, 
-                    const mc-veo::tracking::LOSS_PARAM_METHOD loss_param_method);
+                    const mc_veo::tracking::LOSS_PARAM_METHOD loss_param_method);
 
         void optimize(const int &id, const std::vector<double> *event_frame, ::base::Transform3d &T_kf_ef,
-                    const Eigen::Matrix<double, 6, 1> &vx, const mc-veo::tracking::LOSS_PARAM_METHOD loss_param_method);
+                    const Eigen::Matrix<double, 6, 1> &vx, const mc_veo::tracking::LOSS_PARAM_METHOD loss_param_method);
 
         bool optimize(const int &id, const std::vector<double> *event_frame, ::base::Transform3d &T_kf_ef,
-                    const mc-veo::tracking::LOSS_PARAM_METHOD loss_param_method = mc-veo::tracking::LOSS_PARAM_METHOD::MAD);
+                    const mc_veo::tracking::LOSS_PARAM_METHOD loss_param_method = mc_veo::tracking::LOSS_PARAM_METHOD::MAD);
 
         bool optimize(const int &id, const double event_time, const Eigen::Affine3d &pose_w_kf, const std::vector<double> *event_frame, ::base::Transform3d &T_kf_ef,
-                    const mc-veo::tracking::LOSS_PARAM_METHOD loss_param_method = mc-veo::tracking::LOSS_PARAM_METHOD::MAD);
+                    const mc_veo::tracking::LOSS_PARAM_METHOD loss_param_method = mc_veo::tracking::LOSS_PARAM_METHOD::MAD);
                     
         ::base::Transform3d getTransform();
 
@@ -99,7 +99,7 @@ class Tracker
 
         const Eigen::Vector3d angularVelocity();
 
-        std::vector<double> getLossParams(mc-veo::tracking::LOSS_PARAM_METHOD method=CONSTANT);
+        std::vector<double> getLossParams(mc_veo::tracking::LOSS_PARAM_METHOD method=CONSTANT);
 
         /** Get warpped active points coordinates (point in event frame) **/
         std::vector<cv::Point2d> getCoord(const bool &delete_out_point = false);
@@ -115,9 +115,9 @@ class Tracker
 
         cv::Mat getFMatrix();
 
-        ::mc-veo::tracking::TrackerInfo getInfo();
+        ::mc_veo::tracking::TrackerInfo getInfo();
 
-        bool getFilteredPose(mc-veo::SE3 &pose, const size_t &mean_filter_size = 3);
+        bool getFilteredPose(mc_veo::SE3 &pose, const size_t &mean_filter_size = 3);
 
         bool needNewKeyframe(const double &weight_factor = 0.03);
 };

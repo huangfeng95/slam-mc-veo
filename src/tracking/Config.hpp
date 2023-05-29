@@ -35,7 +35,7 @@
 #include <iomanip>  // std::setprecision()
 #include <fstream>
 
-namespace mc-veo { namespace tracking{
+namespace mc_veo { namespace tracking{
 
     enum LOSS_FUNCTION{NONE, HUBER, CAUCHY};
     enum LINEAR_SOLVER_TYPE{DENSE_QR, DENSE_SCHUR, SPARSE_SCHUR, SPARSE_NORMAL_CHOLESKY};
@@ -71,31 +71,31 @@ namespace mc-veo { namespace tracking{
         uint8_t success;
     };
 
-    inline ::mc-veo::tracking::LOSS_FUNCTION selectLoss(const std::string &loss_name)
+    inline ::mc_veo::tracking::LOSS_FUNCTION selectLoss(const std::string &loss_name)
     {
         if (loss_name.compare("Huber") == 0)
-            return mc-veo::tracking::HUBER;
+            return mc_veo::tracking::HUBER;
         else if (loss_name.compare("Cauchy") == 0)
-            return mc-veo::tracking::CAUCHY;
+            return mc_veo::tracking::CAUCHY;
         else
-            return mc-veo::tracking::NONE;
+            return mc_veo::tracking::NONE;
     };
 
-    inline ::mc-veo::tracking::LINEAR_SOLVER_TYPE selectSolver(const std::string &solver_name)
+    inline ::mc_veo::tracking::LINEAR_SOLVER_TYPE selectSolver(const std::string &solver_name)
     {
         if (solver_name.compare("DENSE_QR") == 0)
-            return mc-veo::tracking::DENSE_QR;
+            return mc_veo::tracking::DENSE_QR;
         else if (solver_name.compare("DENSE_SCHUR") == 0)
-            return mc-veo::tracking::DENSE_SCHUR;
+            return mc_veo::tracking::DENSE_SCHUR;
         else if (solver_name.compare("SPARSE_SCHUR") == 0)
-            return mc-veo::tracking::SPARSE_SCHUR;
+            return mc_veo::tracking::SPARSE_SCHUR;
         else
-            return mc-veo::tracking::SPARSE_NORMAL_CHOLESKY;
+            return mc_veo::tracking::SPARSE_NORMAL_CHOLESKY;
     };
 
-    inline ::mc-veo::tracking::Config readTrackingConfig(YAML::Node config)
+    inline ::mc_veo::tracking::Config readTrackingConfig(YAML::Node config)
     {
-        ::mc-veo::tracking::Config tracker_config;
+        ::mc_veo::tracking::Config tracker_config;
 
         tracker_config.accelerate = config["accelerate"].as<bool>();
         /** Number of points per frame **/
@@ -107,24 +107,24 @@ namespace mc-veo { namespace tracking{
         {
             std::string bootstrapping = config["bootstrapping"].as<std::string>();
             if (bootstrapping.compare("EIGHT_POINTS") == 0)
-                tracker_config.bootstrap = mc-veo::tracking::EIGHT_POINTS;
+                tracker_config.bootstrap = mc_veo::tracking::EIGHT_POINTS;
             else if (bootstrapping.compare("MiDAS") == 0)
-                tracker_config.bootstrap = mc-veo::tracking::MiDAS;
+                tracker_config.bootstrap = mc_veo::tracking::MiDAS;
             else
-                tracker_config.bootstrap = mc-veo::tracking::EIGHT_POINTS;
+                tracker_config.bootstrap = mc_veo::tracking::EIGHT_POINTS;
         }
         else
-            tracker_config.bootstrap = mc-veo::tracking::EIGHT_POINTS;
+            tracker_config.bootstrap = mc_veo::tracking::EIGHT_POINTS;
 
         /** Config the loss **/
         YAML::Node tracker_loss = config["loss_function"];
         std::string loss_name = tracker_loss["type"].as<std::string>();
-        tracker_config.loss_type = mc-veo::tracking::selectLoss(tracker_loss["type"].as<std::string>());
+        tracker_config.loss_type = mc_veo::tracking::selectLoss(tracker_loss["type"].as<std::string>());
         tracker_config.loss_params = tracker_loss["param"].as< std::vector<double> >();
     
         /** Config for ceres options **/
         YAML::Node tracker_options = config["options"];
-        tracker_config.options.linear_solver_type = mc-veo::tracking::selectSolver(tracker_options["solver_type"].as<std::string>());
+        tracker_config.options.linear_solver_type = mc_veo::tracking::selectSolver(tracker_options["solver_type"].as<std::string>());
         tracker_config.options.num_threads = tracker_options["num_threads"].as<int>();
         tracker_config.options.max_num_iterations = tracker_options["max_num_iterations"].as< std::vector<int> > ();
         tracker_config.options.function_tolerance = tracker_options["function_tolerance"].as<double>();

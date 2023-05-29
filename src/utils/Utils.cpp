@@ -25,7 +25,7 @@
 #include "Utils.hpp"
 #include <opencv2/core/eigen.hpp>
 
-namespace mc-veo { namespace utils {
+namespace mc_veo { namespace utils {
 
 std::string type2str(int type)
 {
@@ -74,7 +74,7 @@ cv::Mat drawValuesPoints(const Eigen::MatrixXd &points, const std::vector<int8_t
     auto it_p = values.begin();
     while(it_p != values.end())
     {
-        double weight = (use_exp_weights)? mc-veo::utils::expWeight(static_cast<double>(idx/window_size), 1.0) : 1.0;
+        double weight = (use_exp_weights)? mc_veo::utils::expWeight(static_cast<double>(idx/window_size), 1.0) : 1.0;
         if (method.compare("nn") == 0)
         {
             cv::Point2i x_int(points.row(idx)[0], points.row(idx)[1]);
@@ -147,7 +147,7 @@ cv::Mat drawValuesPoints(const std::vector<cv::Point2d> &points, const std::vect
     auto it_p = values.begin();
     while(it_x != points.end() && it_p != values.end())
     {
-        double weight = (use_exp_weights)? mc-veo::utils::expWeight(static_cast<double>(idx/window_size), 1.0) : 1.0;
+        double weight = (use_exp_weights)? mc_veo::utils::expWeight(static_cast<double>(idx/window_size), 1.0) : 1.0;
         if (method.compare("nn") == 0)
         {
             cv::Point2i x_int = *it_x;
@@ -270,7 +270,7 @@ cv::Mat drawValuesPoints(const std::vector<cv::Point2d> &points, const std::vect
     return img;
 }
 
-cv::Mat drawValuesPoints(const std::vector<::mc-veo::mapping::Point2d> &points, const std::vector<double> &values, const int height, const int width, const std::string &method, const float s)
+cv::Mat drawValuesPoints(const std::vector<::mc_veo::mapping::Point2d> &points, const std::vector<double> &values, const int height, const int width, const std::string &method, const float s)
 {
     /** Asertion only in debug mode **/
     assert(height > 0);
@@ -340,7 +340,7 @@ cv::Mat drawValuesPoints(const std::vector<::mc-veo::mapping::Point2d> &points, 
     return img;
 }
 
-cv::Mat drawValuesPointInfo(const std::vector<::mc-veo::mapping::PointInfo> &points_info,
+cv::Mat drawValuesPointInfo(const std::vector<::mc_veo::mapping::PointInfo> &points_info,
                         const int height, const int width, const std::string &method, const float s)
 {
     /** Asertion only in debug mode **/
@@ -710,7 +710,7 @@ void splitImageInPatches(const cv::Mat &image, const std::vector<cv::Point2d> &c
     std::cout<<"[UTILS] number of patches: "<<patches.size()<<" of size "<<patch_size<<" x "<<patch_size<<std::endl;
 }
 
-void splitImageInPatches(const cv::Mat &image, const std::vector<::mc-veo::mapping::PointInfo> &point,
+void splitImageInPatches(const cv::Mat &image, const std::vector<::mc_veo::mapping::PointInfo> &point,
                         std::vector<cv::Mat> &patches, const uint16_t &patch_radius,
                         const int &border_type, const uint8_t &border_value)
 {
@@ -840,7 +840,7 @@ bool kltRefinement (const cv::Point2d &coord, Eigen::Vector2d &f, const cv::Mat 
                 const cv::Mat &event_frame, const double &outlier_threshold, const int &border_type,
                 const uint8_t &border_value)
 {
-    /** USE AS: bool inlier = ::mc-veo::utils::kltRefinement(coord[i], this->kf->flow[i], model_patches[i],
+    /** USE AS: bool inlier = ::mc_veo::utils::kltRefinement(coord[i], this->kf->flow[i], model_patches[i],
             event_frame, cv::norm(event_patches[i], cv::NORM_L2SQR)); **/
 
     uint16_t patch_size = model_patch.cols;
@@ -895,7 +895,7 @@ bool kltRefinement (const cv::Point2d &coord, Eigen::Vector2d &f, const cv::Mat 
         std::cout<<"to get event_patch"<<std::endl;
         cv::Mat event_patch = img(grid_rect);
         std::cout<<"to compute ssd "<<model_patch.size()<<" - "<<event_patch.size()<<std::endl;
-        ssds.push_back(::mc-veo::utils::ssd(model_patch, event_patch));
+        ssds.push_back(::mc_veo::utils::ssd(model_patch, event_patch));
         std::cout<<"angle["<<angle*180/M_PI<<"] target_coord["<<i<<"]: "<<target_coord[i]<<" ssd: "<<ssds[i]<<std::endl;
     }
 
@@ -934,7 +934,7 @@ cv::Mat flowArrowsOnImage(const cv::Mat &img, const std::vector<cv::Point2d> &co
 
 cv::Point2d searchAlongEpiline(const cv::Size &size, const cv::Mat &img, const cv::Mat &patch, const cv::Vec3d &line,
                             const base::Transform3d &T_ef_kf, const cv::Point2d &norm_coord, const double &idepth,
-                            const double &sigma, const cv::Mat &K, const ::mc-veo::utils::SIMILARITY_MEASURE &method)
+                            const double &sigma, const cv::Mat &K, const ::mc_veo::utils::SIMILARITY_MEASURE &method)
 {
     /** Intrinsics **/
     double fx, fy, cx, cy;
@@ -976,32 +976,32 @@ cv::Point2d searchAlongEpiline(const cv::Size &size, const cv::Mat &img, const c
             //std::cout<<"SEARCH IDX["<<i<<"] p: "<<p<<" grid_rect: "<<grid_rect<<std::endl;
             cv::Mat img_patch = img(grid_rect);
             //std::cout<<"SEARCH IDX["<<i<<"] img_patch: "<<img_patch.size()<<" patch: "<<patch.size()<<std::endl;
-            //cv::imwrite("/tmp/event_patch_"+std::to_string(i)+".png", ::mc-veo::utils::viz(img_patch));
+            //cv::imwrite("/tmp/event_patch_"+std::to_string(i)+".png", ::mc_veo::utils::viz(img_patch));
 
             /** Compute similarity metric **/
             double value = ::base::NaN<double>();
             switch (method)
             {
             case NCC:
-                value = ::mc-veo::utils::ncc(img_patch, patch);
+                value = ::mc_veo::utils::ncc(img_patch, patch);
                 break;
             case ZNCC:
-                value = ::mc-veo::utils::zncc(img_patch, patch);
+                value = ::mc_veo::utils::zncc(img_patch, patch);
                 break;
              case SSD:
-                value = ::mc-veo::utils::ssd(img_patch, patch);
+                value = ::mc_veo::utils::ssd(img_patch, patch);
                 break;
              case NSSD:
-                value = ::mc-veo::utils::nssd(img_patch, patch);
+                value = ::mc_veo::utils::nssd(img_patch, patch);
                 break;
              case ZSSD:
-                value = ::mc-veo::utils::zssd(img_patch, patch);
+                value = ::mc_veo::utils::zssd(img_patch, patch);
                 break;
              case SAD:
-                value = ::mc-veo::utils::sad(img_patch, patch);
+                value = ::mc_veo::utils::sad(img_patch, patch);
                 break;
              case ZSAD:
-                value = ::mc-veo::utils::zsad(img_patch, patch);
+                value = ::mc_veo::utils::zsad(img_patch, patch);
                 break;
             default:
                 break;
@@ -1096,11 +1096,11 @@ cv::Point2d matchTemplate(const cv::Mat &img, const cv::Mat &templ, const int &m
     cv::rectangle(img_display, match_loc, cv::Point( match_loc.x + templ.cols , match_loc.y + templ.rows ), cv::Scalar::all(0), 2, 8, 0);
     cv::rectangle(result, match_loc, cv::Point( match_loc.x + templ.cols , match_loc.y + templ.rows ), cv::Scalar::all(0), 2, 8, 0);
     //cv::imwrite("/tmp/img_display_"+method_string+".png", img_display);
-    //cv::imwrite("/tmp/template_matching_"+ method_string+".png", mc-veo::utils::viz(result));
+    //cv::imwrite("/tmp/template_matching_"+ method_string+".png", mc_veo::utils::viz(result));
     return cv::Point2d(match_loc.x, match_loc.y);
 }
 
-void getCalibration(const ::mc-veo::calib::CameraInfo &cam_info, int &w_out, int &h_out, Eigen::Matrix3f &K_out, Eigen::Vector4f &D_out, Eigen::Matrix3f &R_rect_out, Eigen::Matrix3f &K_ref_out)
+void getCalibration(const ::mc_veo::calib::CameraInfo &cam_info, int &w_out, int &h_out, Eigen::Matrix3f &K_out, Eigen::Vector4f &D_out, Eigen::Matrix3f &R_rect_out, Eigen::Matrix3f &K_ref_out)
 {
     cv::Mat K, K_ref, D, R_rect, P;
     R_rect  = cv::Mat_<float>::eye(3, 3);
@@ -1210,4 +1210,4 @@ void getUndistortImage(const std::string &distortion_model, cv::Mat &input, cv::
     }
 }
 
-}} //end namespace mc-veo::utils
+}} //end namespace mc_veo::utils

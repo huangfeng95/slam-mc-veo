@@ -32,7 +32,7 @@
 #include <exception>
 #include <functional>
 
-namespace mc-veo { namespace mapping {
+namespace mc_veo { namespace mapping {
 	/** @brief k-d tree class.
 	*/
 	template <class PointT>

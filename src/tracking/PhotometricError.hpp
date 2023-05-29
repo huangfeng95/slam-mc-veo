@@ -30,7 +30,7 @@
 #include <ceres/cubic_interpolation.h>
 #include <memory>
 
-namespace mc-veo { namespace tracking {
+namespace mc_veo { namespace tracking {
 
 struct UnitNormVectorAddition
 {
@@ -99,7 +99,7 @@ struct PhotometricError
         int idx = this->start;
         for (int i=0; i<n_points; ++i)
         {
-            ::mc-veo::mapping::Point3d p;
+            ::mc_veo::mapping::Point3d p;
             p[2] = 1.0/((*idp)[idx]+this->eps);
             p[0] = (*norm_coord)[idx].x*p[2];
             p[1] = (*norm_coord)[idx].y*p[2];
@@ -206,7 +206,7 @@ struct PhotometricError
     int n_points; // number of active points
     int height, width; // height and width of the image
     double fx, fy, cx, cy; // intrinsics
-    std::vector< ::mc-veo::mapping::Point3d > kp; // 3D points [x, y , z]
+    std::vector< ::mc_veo::mapping::Point3d > kp; // 3D points [x, y , z]
     const std::vector<cv::Point2d> *grad; // N x 2 img gradient [\Nabla x, \Nabla y]
     const std::vector<cv::Point2d> *norm_coord; // N x 2 normalized keyframe coord [X, Y]
     const std::vector<double> *idp; // N x 1 inverse depth

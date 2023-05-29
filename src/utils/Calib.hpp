@@ -36,7 +36,7 @@
 
 #include <vector>
 
-namespace mc-veo { namespace calib {
+namespace mc_veo { namespace calib {
 
     struct CameraInfo
     {
@@ -66,9 +66,9 @@ namespace mc-veo { namespace calib {
 
     struct DualCamera
     {
-        ::mc-veo::calib::CameraInfo cam0; //rgb camera
-        ::mc-veo::calib::CameraInfo cam1; //event camera
-        ::mc-veo::calib::Baseline extrinsics; // Camera extrinsics
+        ::mc_veo::calib::CameraInfo cam0; //rgb camera
+        ::mc_veo::calib::CameraInfo cam1; //event camera
+        ::mc_veo::calib::Baseline extrinsics; // Camera extrinsics
     };
 
     /** Camera calibration **/
@@ -81,7 +81,7 @@ namespace mc-veo { namespace calib {
         std::string distortion_model; // distortion model name
 
         Camera(){};
-        Camera(const ::mc-veo::calib::CameraInfo &cam_info, const base::Quaterniond &rotation = base::Quaterniond::Identity());
+        Camera(const ::mc_veo::calib::CameraInfo &cam_info, const base::Quaterniond &rotation = base::Quaterniond::Identity());
         void toDSOFormat(const std::string &filename="/tmp/dso_camera.txt");
         void undistort(const cv::Mat &input, cv::Mat &output)
         {
@@ -94,12 +94,12 @@ namespace mc-veo { namespace calib {
         std::vector<double> intrinsics(){return {fx(), fy(), cx(), cy()};}
     };
 
-    ::mc-veo::calib::CameraInfo readCameraCalib(YAML::Node cam_calib);
-    ::mc-veo::calib::DualCamera readDualCalibration(YAML::Node cam_calib);
-    ::mc-veo::calib::Camera setNewCamera(const ::mc-veo::calib::Camera &cam0, const ::mc-veo::calib::Camera &cam1);
-    ::mc-veo::calib::Camera setNewCamera(const ::mc-veo::calib::Camera &cam0, const ::mc-veo::calib::Camera &cam1, const cv::Size out_size);
-    void getMapping(::mc-veo::calib::Camera &cam0, ::mc-veo::calib::Camera &cam1, ::mc-veo::calib::Camera &newcam);
-    void getEventUndistCoord (const ::mc-veo::calib::Camera &event_camera, const ::mc-veo::calib::Camera &new_camera, std::vector<cv::Point2d> &undist_coord);
+    ::mc_veo::calib::CameraInfo readCameraCalib(YAML::Node cam_calib);
+    ::mc_veo::calib::DualCamera readDualCalibration(YAML::Node cam_calib);
+    ::mc_veo::calib::Camera setNewCamera(const ::mc_veo::calib::Camera &cam0, const ::mc_veo::calib::Camera &cam1);
+    ::mc_veo::calib::Camera setNewCamera(const ::mc_veo::calib::Camera &cam0, const ::mc_veo::calib::Camera &cam1, const cv::Size out_size);
+    void getMapping(::mc_veo::calib::Camera &cam0, ::mc_veo::calib::Camera &cam1, ::mc_veo::calib::Camera &newcam);
+    void getEventUndistCoord (const ::mc_veo::calib::Camera &event_camera, const ::mc_veo::calib::Camera &new_camera, std::vector<cv::Point2d> &undist_coord);
 
 } //calib namespace
 } // end namespace

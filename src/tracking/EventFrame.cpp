@@ -23,9 +23,9 @@
 
 #include "EventFrame.hpp"
 
-using namespace mc-veo::tracking;
+using namespace mc_veo::tracking;
 
-EventFrame::EventFrame(const ::mc-veo::calib::Camera &cam, const ::mc-veo::calib::Camera &newcam, const std::string &distortion_model)
+EventFrame::EventFrame(const ::mc_veo::calib::Camera &cam, const ::mc_veo::calib::Camera &newcam, const std::string &distortion_model)
 {
     this->K = cam.K.clone();
     this->D = cam.D.clone();
@@ -115,7 +115,7 @@ EventFrame::EventFrame(const ::mc-veo::calib::Camera &cam, const ::mc-veo::calib
 }
 
 EventFrame::EventFrame(const uint64_t &idx, const std::vector<base::samples::Event> &events,
-                    const ::mc-veo::calib::CameraInfo &cam_info, const int &num_levels,
+                    const ::mc_veo::calib::CameraInfo &cam_info, const int &num_levels,
                     const ::base::Affine3d &T,
                     const cv::Size &out_size)
 {
@@ -228,7 +228,7 @@ EventFrame::EventFrame(const uint64_t &idx, const std::vector<base::samples::Eve
     }
 
     /**  Compute brightness change event frame (undistorted) per pyramid level **/
-    cv::Mat event_img = mc-veo::utils::drawValuesPoints(this->undist_coord, this->pol, height, width, "bilinear", 0.5, true);
+    cv::Mat event_img = mc_veo::utils::drawValuesPoints(this->undist_coord, this->pol, height, width, "bilinear", 0.5, true);
     cv::Size size = event_img.size();
 
     /** Check if the input image should be rescale **/
@@ -367,7 +367,7 @@ void EventFrame::DeriveErrAnalytic(const Eigen::VectorXd &vdelta_t, const Eigen:
 {
     GetWarpedEventPoint(vdelta_t, v_linear, v_angular, pose_w_ef);
 
-    cv::Mat event_img_aligned = mc-veo::utils::drawValuesPoints(this->matrix_warped_coord, this->pol, this->height, this->width, "bilinear",
+    cv::Mat event_img_aligned = mc_veo::utils::drawValuesPoints(this->matrix_warped_coord, this->pol, this->height, this->width, "bilinear",
                                 0.5, false);
     
     cv::Sobel(event_img_aligned, Ix, CV_64FC1, 1, 0);
@@ -428,7 +428,7 @@ void EventFrame::DeriveErrAnalytic(const Eigen::VectorXd &vdelta_t, const Eigen:
 }
 
 void EventFrame::create_aligned(const uint64_t &idx, const std::vector<base::samples::Event> &events,
-                    const ::mc-veo::calib::CameraInfo &cam_info, const int &num_levels,
+                    const ::mc_veo::calib::CameraInfo &cam_info, const int &num_levels,
                     const cv::Size &out_size, const ::base::Affine3d &T)
 {
     /** Clean before inserting**/
@@ -512,7 +512,7 @@ void EventFrame::create_aligned(const uint64_t &idx, const std::vector<base::sam
 
     GetWarpedEventPoint(delta_t, linear_velocity, angular_velocity, position_compensator);
 
-    cv::Mat event_img = mc-veo::utils::drawValuesPoints(this->matrix_warped_coord, this->pol, this->height, this->width, "bilinear",
+    cv::Mat event_img = mc_veo::utils::drawValuesPoints(this->matrix_warped_coord, this->pol, this->height, this->width, "bilinear",
                                 0.5, false);
     
     cv::Size size = event_img.size();
@@ -615,7 +615,7 @@ void EventFrame::DeriveErrAnalytic(const std::vector<double> &vdelta_t, const Ei
 {
     GetWarpedEventPoint(vdelta_t, this->undist_coord, this->warped_coord_3d, this->warped_coord, v_linear, v_angular, pose_w_ef);
 
-    cv::Mat event_img_aligned = mc-veo::utils::drawValuesPoints(this->warped_coord, this->pol, this->height, this->width, "bilinear",
+    cv::Mat event_img_aligned = mc_veo::utils::drawValuesPoints(this->warped_coord, this->pol, this->height, this->width, "bilinear",
                                 0.5, false);
     
     cv::Sobel(event_img_aligned, Ix, CV_64FC1, 1, 0);
@@ -677,7 +677,7 @@ void EventFrame::DeriveErrAnalytic(const std::vector<double> &vdelta_t, const Ei
 }
 
 void EventFrame::create(const uint64_t &idx, const std::vector<base::samples::Event> &events,
-                    const ::mc-veo::calib::CameraInfo &cam_info, const int &num_levels,
+                    const ::mc_veo::calib::CameraInfo &cam_info, const int &num_levels,
                     const ::base::Affine3d &T,
                     const cv::Size &out_size)
 {
@@ -721,7 +721,7 @@ void EventFrame::create(const uint64_t &idx, const std::vector<base::samples::Ev
     this->delta_time = (last_time - first_time);
 
     /**  Compute brightness change event frame (undistorted) per pyramid level **/
-    cv::Mat event_img = mc-veo::utils::drawValuesPoints(this->undist_coord, this->pol, height, width, "bilinear", 0.5, true);
+    cv::Mat event_img = mc_veo::utils::drawValuesPoints(this->undist_coord, this->pol, height, width, "bilinear", 0.5, true);
     cv::Size size = event_img.size();
 
     if (this->out_scale[0] != 1 || this->out_scale[1] != 1)
@@ -795,7 +795,7 @@ cv::Mat EventFrame::viz(size_t id, bool color)
     norm_img.convertTo(events_viz, CV_8UC1, 255, 0);
     if (color)
     {
-        mc-veo::utils::BlueWhiteRed bwr;
+        mc_veo::utils::BlueWhiteRed bwr;
         bwr(events_viz, events_viz);
     }
 
@@ -825,7 +825,7 @@ cv::Mat EventFrame::getEventFrameViz(const size_t &id, bool color)
     norm_img.convertTo(events_viz, CV_8UC1, 255, 0);
     if (color)
     {
-        mc-veo::utils::BlueWhiteRed bwr;
+        mc_veo::utils::BlueWhiteRed bwr;
         bwr(events_viz, events_viz);
     }
 
@@ -884,5 +884,5 @@ cv::Mat EventFrame::pyramidViz(const bool &color)
         this->frame[i].copyTo(img(cv::Rect(0, i*size.height, size.width, size.height)));
     }
 
-    return ::mc-veo::utils::viz(img);
+    return ::mc_veo::utils::viz(img);
 }

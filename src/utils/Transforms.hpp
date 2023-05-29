@@ -30,7 +30,7 @@
 #include <base/Time.hpp>
 #include <math.h>
 
-namespace mc-veo { namespace transforms {
+namespace mc_veo { namespace transforms {
 
     inline Eigen::Matrix3d axis_angle(Eigen::Vector3d &axis, double &theta)
     {
