@@ -22,8 +22,8 @@
  */
 
 
-#ifndef __MC-VEO_KDTREE_H__
-#define __MC-VEO_KDTREE_H__
+#ifndef __MC_VEO_KDTREE_H__
+#define __MC_VEO_KDTREE_H__
 
 #include <vector>
 #include <math.h> 

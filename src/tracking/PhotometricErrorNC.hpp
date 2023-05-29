@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _MC-VEO_PHOTOMETRIC_ERROR_HPP_
-#define _MC-VEO_PHOTOMETRIC_ERROR_HPP_
+#ifndef _MC_VEO_PHOTOMETRIC_ERROR_HPP_
+#define _MC_VEO_PHOTOMETRIC_ERROR_HPP_
 
 #include <mc-veo/mapping/Types.hpp>
 #include <ceres/ceres.h>
@@ -231,4 +231,4 @@ struct PhotometricErrorNC
 } //tracking namespace
 } // end namespace
 
-#endif // _MC-VEO_PHOTOMETRIC_ERROR_HPP_
+#endif // _MC_VEO_PHOTOMETRIC_ERROR_HPP_

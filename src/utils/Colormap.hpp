@@ -22,8 +22,8 @@
  */
 
 
-#ifndef _MC-VEO_COLORMAP_HPP_
-#define _MC-VEO_COLORMAP_HPP_
+#ifndef _MC_VEO_COLORMAP_HPP_
+#define _MC_VEO_COLORMAP_HPP_
 
 #include <mc-veo/utils/Utils.hpp>
 
@@ -109,4 +109,4 @@ namespace mc_veo { namespace utils {
 } //utils namespace
 } // end namespace
 
-#endif // _MC-VEO_COLORMAP_HPP_
+#endif // _MC_VEO_COLORMAP_HPP_

@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _MC-VEO_EVENT_FRAME_HPP_
-#define _MC-VEO_EVENT_FRAME_HPP_
+#ifndef _MC_VEO_EVENT_FRAME_HPP_
+#define _MC_VEO_EVENT_FRAME_HPP_
 
 #include <mc-veo/utils/Utils.hpp>
 #include <mc-veo/utils/Colormap.hpp>
@@ -151,4 +151,4 @@ namespace tracking {
 } //tracking namespace
 } // end namespace
 
-#endif // _MC-VEO_EVENT_FRAME_HPP_
+#endif // _MC_VEO_EVENT_FRAME_HPP_

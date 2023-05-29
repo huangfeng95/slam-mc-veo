@@ -22,8 +22,8 @@
  */
 
 
-#ifndef _MC-VEO_UTILS_HPP_
-#define _MC-VEO_UTILS_HPP_
+#ifndef _MC_VEO_UTILS_HPP_
+#define _MC_VEO_UTILS_HPP_
 
 #include <opencv2/opencv.hpp>
 #include <map>
@@ -574,4 +574,4 @@ namespace mc_veo { namespace utils {
 } //utils namespace
 } // end namespace
 
-#endif // _MC-VEO_UTILS_HPP_
+#endif // _MC_VEO_UTILS_HPP_

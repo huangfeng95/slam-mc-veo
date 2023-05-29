@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _MC-VEO_CALIB_HPP_
-#define _MC-VEO_CALIB_HPP_
+#ifndef _MC_VEO_CALIB_HPP_
+#define _MC_VEO_CALIB_HPP_
 
 /** Yaml **/
 #include <yaml-cpp/yaml.h>
@@ -104,4 +104,4 @@ namespace mc_veo { namespace calib {
 } //calib namespace
 } // end namespace
 
-#endif // _MC-VEO_CALIB_HPP_
+#endif // _MC_VEO_CALIB_HPP_

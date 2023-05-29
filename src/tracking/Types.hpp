@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _MC-VEO_TRACKING_TYPES_HPP_
-#define _MC-VEO_TRACKING_TYPES_HPP_
+#ifndef _MC_VEO_TRACKING_TYPES_HPP_
+#define _MC_VEO_TRACKING_TYPES_HPP_
 
 #include <mc-veo/tracking/Config.hpp>
 
@@ -150,5 +150,5 @@ typedef SE3MW<20> SE3MW20;
 typedef SE3MW<50> SE3MW50;
 
 } // end namespace
-#endif // _MC-VEO_TRACKING_TYPES_HPP_
+#endif // _MC_VEO_TRACKING_TYPES_HPP_
 

@@ -22,8 +22,8 @@
  */
 
 
-#ifndef _MC-VEO_TRANSFORMS_HPP_
-#define _MC-VEO_TRANSFORMS_HPP_
+#ifndef _MC_VEO_TRANSFORMS_HPP_
+#define _MC_VEO_TRANSFORMS_HPP_
 
 /** Base types **/
 #include <base/Eigen.hpp>

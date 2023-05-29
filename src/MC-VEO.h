@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MC-VEO_MC-VEO_H
-#define MC-VEO_MC-VEO_H
+#ifndef MC_VEO_MC_VEO_H
+#define MC_VEO_MC_VEO_H
 
 /** Base types **/
 #include <base/Eigen.hpp>
@@ -71,4 +71,4 @@
 #include <mc-veo/bundles/EnergyFunctionalStructs.h>
 #include <mc-veo/bundles/MatrixAccumulators.h>
 
-#endif //MC-VEO_MC-VEO_H
+#endif //MC_VEO_MC_VEO_H

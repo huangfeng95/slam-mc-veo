@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _MC-VEO_TRACKER_HPP_
-#define _MC-VEO_TRACKER_HPP_
+#ifndef _MC_VEO_TRACKER_HPP_
+#define _MC_VEO_TRACKER_HPP_
 
 #include <mc-veo/tracking/Types.hpp>
 #include <mc-veo/tracking/Config.hpp>
@@ -125,4 +125,4 @@ class Tracker
 } //tracking namespace
 } // end namespace
 
-#endif // _MC-VEO_TRACKER_HPP_
+#endif // _MC_VEO_TRACKER_HPP_

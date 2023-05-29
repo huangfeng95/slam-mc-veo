@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _MC-VEO_MAPPING_DEPTH_POINTS_HPP_
-#define _MC-VEO_MAPPING_DEPTH_POINTS_HPP_
+#ifndef _MC_VEO_MAPPING_DEPTH_POINTS_HPP_
+#define _MC_VEO_MAPPING_DEPTH_POINTS_HPP_
 
 #include <mc-veo/utils/Utils.hpp>
 #include <mc-veo/mapping/Config.hpp>
@@ -242,5 +242,5 @@ return 1.0 / depth_min;
 
 } // mapping namespace
 } // end namespace
-#endif // _MC-VEO_MAPPING_DEPTH_POINTS_HPP_
+#endif // _MC_VEO_MAPPING_DEPTH_POINTS_HPP_
 

@@ -22,8 +22,8 @@
  */
 
 
-#ifndef _MC-VEO_UTILS_CONFIG_HPP_
-#define _MC-VEO_UTILS_CONFIG_HPP_
+#ifndef _MC_VEO_UTILS_CONFIG_HPP_
+#define _MC_VEO_UTILS_CONFIG_HPP_
 
 #include <yaml-cpp/yaml.h>
 #include <string>

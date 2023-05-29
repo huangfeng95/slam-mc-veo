@@ -21,8 +21,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _MC-VEO_TRACKING_CONFIG_HPP_
-#define _MC-VEO_TRACKING_CONFIG_HPP_
+#ifndef _MC_VEO_TRACKING_CONFIG_HPP_
+#define _MC_VEO_TRACKING_CONFIG_HPP_
 
 #include <yaml-cpp/yaml.h>
 #include <base/Time.hpp>
